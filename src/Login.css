@@ -1,0 +1,45 @@
+/*
+
+    Color Pallete
+        Rich black: #050505
+            ligher: #1a1a1a
+
+        Blue Munsell: #1B9AAA 
+            lighter: #28b7c9
+
+        Alabaster: #F5F1E3
+
+*/
+
+.Login {
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: #1a1a1a;
+    min-width: 250px;
+    width: 90%;
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+    color: #F5F1E3;
+}
+
+.intro {
+    padding: 10px;
+}
+
+.intro h1 {
+
+}
+
+.intro p {
+    padding: 4px;
+}
