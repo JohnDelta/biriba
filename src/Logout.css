@@ -1,0 +1,69 @@
+/*
+
+    Color Pallete
+        Rich black: #050505
+            ligher: #1a1a1a
+                lighter: #2f2f2f
+                darker: #131313
+
+        Blue Munsell: #1B9AAA 
+            lighter: #28b7c9
+            darker: #147480
+
+        Alabaster: #F5F1E3
+
+*/
+
+.Logout {
+    width: 100vw;
+    max-width: 1024px;
+    background-color: transparent;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-container {
+    background-color: #1a1a1a;
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    color: #F5F1E3;
+    align-items: center;
+    padding: 0px 0px 0px 6px;
+}
+
+.logout-container > .user {
+    grid-row: 1/2;
+    display: flex;
+}
+
+.logout-container > p {
+}
+
+.logout-container > .user i {
+    margin-right: 3px;
+}
+
+.logout-container > button {
+    grid-row: 1/2;
+    justify-self: end;
+    width: 55px;
+    height: 45px;
+    padding-right: 4px;
+    background-color: #2f2f2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-container > button:active {
+    background-color: #131313;
+}
+
+.logout-container > button > i {
+    color: #F5F1E3;
+    font-size: 22px;
+}

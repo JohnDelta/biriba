@@ -5,17 +5,12 @@ class Login extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      name: "",
-      googleAuth: ""
-    };
   }
 
   render() {
       return (
         <div className="Login">
-            <div className="container">
+            <div className="login-container">
                 <div className="intro">
                     <h1>Welcome to Biriba Notes</h1>
                     <p>

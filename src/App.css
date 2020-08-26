@@ -1,4 +1,9 @@
 .App {
-    width: 100vw;
     overflow-x: hidden;
+    background-image: url("./background.jpg");
+    max-width: 768px;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
 }

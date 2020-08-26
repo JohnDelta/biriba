@@ -1,0 +1,57 @@
+/*
+
+    Color Pallete
+        Rich black: #050505
+            ligher: #1a1a1a
+                lighter: #2f2f2f
+                darker: #131313
+
+        Blue Munsell: #1B9AAA 
+            lighter: #28b7c9
+            darker: #147480
+
+        Alabaster: #F5F1E3
+
+*/
+
+.Menu {
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-container {
+    background-color: #1a1a1a;
+    min-width: 250px;
+    width: 90%;
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    color: #F5F1E3;
+}
+
+.menu-container > button {
+    margin: 5px;
+    background-color: #2f2f2f;
+}
+
+.menu-container button > p {
+    text-align: center;
+}
+
+.menu-container button > i {
+    font-size: 32px;
+}
+
+.menu-container > button:active {
+    background-color: #131313;
+}
+
+.intro {
+    padding: 10px;
+    grid-column: 1/3;
+}

@@ -2,11 +2,12 @@ import React from 'react';
 import './App.css';
 import Login from './Login';
 import Menu from './Menu';
+import Logout from './Logout';
 
 var SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 var DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
-var API_KEY = "AIzaSyBprTfI37i-0AwMIYO1WKctAaTGJ1krnwA";
-var CLIENDT_ID = "286520596166-eei2md6014af234a4ge4spnr12f5ksvb.apps.googleusercontent.com";
+var API_KEY = "AIzaSyD9WfKdQ-TXkfhluJAT13jzVEudExZdBaM";
+var CLIENT_ID = "286520596166-kcoq2cmrbd0cejleemk2viuq6rguivhj.apps.googleusercontent.com";
 
 class App extends React.Component {
 
@@ -24,7 +25,6 @@ class App extends React.Component {
     this.updateSigninStatus = this.updateSigninStatus.bind(this);
     this.handleClientLoad = this.handleClientLoad.bind(this);
     this.setSigninStatus = this.setSigninStatus.bind(this);
-    this.isConnected = this.isConnected.bind(this);
   }
 
   componentDidMount(){
@@ -42,7 +42,7 @@ class App extends React.Component {
     try {
       window.gapi.client.init({
           'apiKey': API_KEY,
-          'clientId': CLIENDT_ID,
+          'clientId': CLIENT_ID,
           'scope': SCOPE,
           'discoveryDocs': [DISCOVERY_URL]
         }).then(() => {
@@ -57,11 +57,11 @@ class App extends React.Component {
   }
 
   signInFunction = () => {
-    if(this.isConnected) {
+    try {
       this.state.googleAuth.signIn();
       this.updateSigninStatus();
-    } else {
-      console.log("No connection to API yet...");
+    } catch(e) {
+      console.log(e);
     }
   }
 
@@ -77,7 +77,7 @@ class App extends React.Component {
   setSigninStatus = async () => {
     var user = this.state.googleAuth.currentUser.get();
     console.log(user);
-console.log("pass setSigninStatus called");
+    
     if(user.wc == null){
       this.setState({
         name: ''
@@ -132,27 +132,22 @@ console.log("pass setSigninStatus called");
     }
   }
 
-  isConnected() {
-    if(this.state.user !== undefined && this.state.user !== "") {
-      return true;
-    }
-    return false;
-  }
-
   render() {
 
     var screen = "";
-    if(this.state.name === "") {
+    var header = "";
+    //this.state.name === "" || this.state.name === undefined
+    if(this.state.name === "" || this.state.name === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
       screen = <Menu />;
+      header = <Logout signOutFunction={this.signOutFunction} />;
     }
-    
+
     return (
         <div className="App">
-
+          {header}
           {screen}
-        
         </div>
     );
   }

@@ -3,9 +3,11 @@
     Color Pallete
         Rich black: #050505
             ligher: #1a1a1a
+                darker: #131313
 
         Blue Munsell: #1B9AAA 
             lighter: #28b7c9
+            darker: #147480
 
         Alabaster: #F5F1E3
 
@@ -21,7 +23,7 @@
     align-items: center;
 }
 
-.container {
+.login-container {
     background-color: #1a1a1a;
     min-width: 250px;
     width: 90%;
@@ -30,6 +32,14 @@
     grid-template-columns: 100%;
     grid-template-rows: auto auto;
     color: #F5F1E3;
+}
+
+.login-container > button {
+    background-color: #1B9AAA;
+}
+
+.login-container > button:active {
+    background-color: #147480;   
 }
 
 .intro {

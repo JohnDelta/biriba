@@ -3,6 +3,8 @@
     Color Pallete
         Rich black: #050505
             ligher: #1a1a1a
+                lighter: #2f2f2f
+                darker: #131313
 
         Blue Munsell: #1B9AAA 
             lighter: #28b7c9
@@ -24,28 +26,20 @@
 }
 
 body {
-    background-image: url("./background.jpg");
-    background-repeat: no-repeat;
     background-color: #050505;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     overflow-x: hidden;
-
-    max-width: 1024px;
 }
 
 button {
+    cursor: pointer;
     font-weight: 300;
-    background-color: #1B9AAA;
     color: #FFFFFF;
     padding: 10px;
     font-size: 16px;
     border: none;
     outline: none;
-}
-
-button:active {
-    background-color: #147480;   
 }
 
 h1 {
@@ -57,4 +51,7 @@ p {
     font-size: 14px;
 }
 
+i {
+    pointer-events: none;
+}
 
