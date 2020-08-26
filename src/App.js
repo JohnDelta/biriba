@@ -6,7 +6,7 @@ import Logout from './Logout';
 
 var SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 var DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
-var API_KEY = "AIzaSyD9WfKdQ-TXkfhluJAT13jzVEudExZdBaM";
+var API_KEY = "AIzaSyDx-UwZd7JuuZZEKaA5OeCXpiWr4PGul9I";
 var CLIENT_ID = "286520596166-kcoq2cmrbd0cejleemk2viuq6rguivhj.apps.googleusercontent.com";
 
 class App extends React.Component {
@@ -16,7 +16,8 @@ class App extends React.Component {
 
     this.state = {
       name: "",
-      googleAuth: ""
+      googleAuth: "",
+      userMail: ""
     };
 
     this.initClient = this.initClient.bind(this);
@@ -75,73 +76,29 @@ class App extends React.Component {
   }
 
   setSigninStatus = async () => {
-    var user = this.state.googleAuth.currentUser.get();
-    console.log(user);
-    
-    if(user.wc == null){
-      this.setState({
-        name: ''
-      });
-    }
-    else {
-      var isAuthorized = user.hasGrantedScopes(SCOPE);
-      
-      if(isAuthorized) {
-        console.log("Everything ok. Do stuff here");
+    this.setState({
+      userMail: ""
+    });
+
+    var user = await this.state.googleAuth.currentUser.get();
+    var isAuthorized = user.hasGrantedScopes(SCOPE);
+      if(isAuthorized){
+        this.setState({
+          userMail: user.vt.cu
+        });
       }
-
-      // if(isAuthorized) {
-      //   this.setState({
-      //     name: user.Ot.Cd
-      //   });
-
-      //   const boundary='foo_bar_baz'
-      //   const delimiter = "\r\n--" + boundary + "\r\n";
-      //   const close_delim = "\r\n--" + boundary + "--";
-      //   var fileName='mychat123';
-      //   var fileData='this is a sample data';
-      //   var contentType='text/plain'
-      //   var metadata = {
-      //     'name': fileName,
-      //     'mimeType': contentType
-      //   };
-
-      //   var multipartRequestBody =
-      //     delimiter +
-      //     'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      //     JSON.stringify(metadata) +
-      //     delimiter +
-      //     'Content-Type: ' + contentType + '\r\n\r\n' +
-      //     fileData+'\r\n'+
-      //     close_delim;
-
-      //     console.log(multipartRequestBody);
-      //     var request = window.gapi.client.request({
-      //       'path': 'https://www.googleapis.com/upload/drive/v3/files',
-      //       'method': 'POST',
-      //       'params': {'uploadType': 'multipart'},
-      //       'headers': {
-      //         'Content-Type': 'multipart/related; boundary=' + boundary + ''
-      //       },
-      //       'body': multipartRequestBody});
-      //   request.execute(function(file) {
-      //     console.log(file)
-      //   });
-      // }
-
-    }
   }
 
   render() {
 
     var screen = "";
     var header = "";
-    //this.state.name === "" || this.state.name === undefined
-    if(this.state.name === "" || this.state.name === undefined) {
+
+    if(this.state.userMail === "" || this.state.userMail === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
       screen = <Menu />;
-      header = <Logout signOutFunction={this.signOutFunction} />;
+      header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
     }
 
     return (
