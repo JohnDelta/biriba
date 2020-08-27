@@ -14,10 +14,15 @@ class NewGame extends React.Component {
     super(props);
     this.state = {
       numberOfPlayers: 0,
-      players: []
+      numberOfTeams: 0,
+      players: [],
+      teams: []
     };
     this.onChangeNumberOfPlayers = this.onChangeNumberOfPlayers.bind(this);
-    this.initializePlayers = this.initializePlayers.bind(this);
+    this.submitNumberOfPlayers = this.submitNumberOfPlayers.bind(this);
+    this.onChangePlayerNames = this.onChangePlayerNames.bind(this);
+    this.submitNumberOfTeams = this.submitNumberOfTeams.bind(this);
+    this.onChangeNumberOfTeams = this.onChangeNumberOfTeams.bind(this);
   }
 
   onChangeNumberOfPlayers(e) {
@@ -28,8 +33,8 @@ class NewGame extends React.Component {
     });
   }
 
-  initializePlayers() {
-    if(this.state.numberOfPlayers >= 1 && this.state.numberOfPlayers <= 20) {
+  submitNumberOfPlayers() {
+    if(this.state.numberOfPlayers > 1 && this.state.numberOfPlayers <= 20) {
       let players = [];
       for(let i = 0; i < this.state.numberOfPlayers; i++) {
         players.push({
@@ -41,6 +46,27 @@ class NewGame extends React.Component {
         players: players
       });
     }
+  }
+
+  onChangePlayerNames(e) {
+    // given id of form : playerName_# where # is the index in json
+    let playerId = e.target.id.split("_")[1]; 
+    let playerName = e.target.value;
+    let newPlayers = this.state.players;
+    newPlayers[playerId]["name"] = playerName;
+    this.setState({
+      players: newPlayers
+    });
+  }
+
+  onChangeNumberOfTeams(e) {
+    this.setState({
+      numberOfTeams: e.target.value
+    });
+  }
+
+  submitNumberOfTeams() {
+    
   }
 
   render() {
@@ -55,7 +81,10 @@ class NewGame extends React.Component {
               <p className="title">Player: {index+1}</p>
               <input 
                 type="text"
-                length="30"
+                maxLength="20"
+                id={"playerName_"+index}
+                value={this.state.players[index]["name"]}
+                onChange={this.onChangePlayerNames}
               />
               <p>Name</p>
             </div>
@@ -63,11 +92,25 @@ class NewGame extends React.Component {
         });
         if(flag) {
           playersDiv.push(
-            <div className="player-section" key={"playersDiv9999"}>
-              <button className="submit-players-button" onClick={this.initializePlayers} >
-                Submit player names
-              </button>
-            </div>
+            <div className="section" key={"playersDiv9999"}>
+                  <input 
+                    type="number" 
+                    placeholder="2" 
+                    maxLength="2"
+                    minLength="1"
+                    max="20"
+                    min="2"
+                    value={this.state.numberOfTeams}
+                    onChange={this.onChangeNumberOfTeams}
+                  />
+                  <p>Number of teams</p>
+                  <button
+                    style={{"height":"40px"}} 
+                    className="submit-players-button" 
+                    onClick={this.submitNumberOfTeams} >
+                    Submit names and number of teams
+                  </button>
+                </div>
           );
         }
       }
@@ -87,11 +130,12 @@ class NewGame extends React.Component {
                     maxLength="2"
                     minLength="1"
                     max="20"
+                    min="2"
                     value={this.state.numberOfPlayers}
                     onChange={this.onChangeNumberOfPlayers}
                   />
                   <p>Number of players</p>
-                  <button className="submit-players-button" onClick={this.initializePlayers} >
+                  <button className="submit-players-button" onClick={this.submitNumberOfPlayers} >
                     Submit number of players
                   </button>
                 </div>
