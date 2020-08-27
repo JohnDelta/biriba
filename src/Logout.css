@@ -16,7 +16,7 @@
 
 .Logout {
     width: 100vw;
-    max-width: 1024px;
+    max-width: 768px;
     background-color: transparent;
     position: fixed;
     display: flex;

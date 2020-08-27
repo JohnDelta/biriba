@@ -42,6 +42,21 @@ button {
     outline: none;
 }
 
+a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    font-weight: 300;
+    color: #FFFFFF;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
 h1 {
     font-size: 18px;
     font-weight: 500;
@@ -55,3 +70,22 @@ i {
     pointer-events: none;
 }
 
+input[type=number] {
+    background-color: #2f2f2f;
+    border: none;
+    padding: 3px;
+    font-size: 16px;
+    color: #F5F1E3;
+    outline: none;
+    text-align: center;
+}
+
+input[type=text] {
+    background-color: #2f2f2f;
+    border: none;
+    padding: 3px;
+    font-size: 16px;
+    color: #F5F1E3;
+    outline: none;
+    text-align: center;
+}

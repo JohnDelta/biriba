@@ -94,7 +94,7 @@ class App extends React.Component {
     var screen = "";
     var header = "";
 
-    if(this.state.userMail === "" || this.state.userMail === undefined) {
+    if(this.state.userMail === "" && this.state.userMail === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
       screen = <Menu />;

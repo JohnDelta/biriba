@@ -1,0 +1,114 @@
+/*
+
+    Color Pallete
+        Rich black: #050505
+            ligher: #1a1a1a
+                lighter: #2f2f2f
+                darker: #131313
+
+        Blue Munsell: #1B9AAA 
+            lighter: #28b7c9
+            darker: #147480
+
+        Alabaster: #F5F1E3
+
+*/
+
+.NewGame {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: transparent;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NewGame-container {
+    min-width: 250px;
+    width: 90%;
+    max-width: 300px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    color: #F5F1E3;
+    align-items: center;
+    padding: 10px;
+    row-gap: 10px;
+}
+
+.NewGame-container > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.NewGame-container > .header a {
+    color: #F5F1E3;
+    width: 45px;
+    height: 45px;
+    background-color: #2f2f2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NewGame-container > .header a:active {
+    background-color: #131313;
+}
+
+.NewGame-container > .header p {
+    color: #F5F1E3;
+    font-size: 16px;
+}
+
+.NewGame-container > .header i {
+
+}
+
+.section input[type=number] {
+
+}
+
+.NewGame-container > .section {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 45px auto;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.NewGame-container > .player-section {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: minmax(100px, 90%) auto;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.NewGame-container > .player-section .title {
+    grid-column: 1/3;
+    margin-bottom: 2px;
+}
+
+.NewGame-container button {
+    background-color: #2f2f2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NewGame-container button:active {
+    background-color: #131313;
+}
+
+.submit-players-button {
+    margin-top: 10px;
+    height: 30px;
+    font-size: 14px;
+    grid-column: 1/3;
+    overflow: hidden;
+}
