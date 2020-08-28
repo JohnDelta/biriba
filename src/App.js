@@ -4,10 +4,12 @@ import Login from './Login';
 import Menu from './Menu';
 import Logout from './Logout';
 
+import Keys from './Keys.js';
+
 var SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 var DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
-var API_KEY = "AIzaSyDx-UwZd7JuuZZEKaA5OeCXpiWr4PGul9I";
-var CLIENT_ID = "286520596166-kcoq2cmrbd0cejleemk2viuq6rguivhj.apps.googleusercontent.com";
+var API_KEY = Keys.getAPIKey();
+var CLIENT_ID = Keys.getClientId();
 
 class App extends React.Component {
 
