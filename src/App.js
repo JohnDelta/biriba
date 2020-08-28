@@ -9,7 +9,7 @@ import Keys from './Keys.js';
 var SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
 var DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
 var API_KEY = Keys.getAPIKey();
-var CLIENT_ID = Keys.getClientId();
+var CLIENT_ID = Keys.getClientID();
 
 class App extends React.Component {
 
