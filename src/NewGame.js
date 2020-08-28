@@ -1,12 +1,7 @@
 import React from 'react';
 import './NewGame.css';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 class NewGame extends React.Component {
 
@@ -16,15 +11,15 @@ class NewGame extends React.Component {
       numberOfPlayers: 0,
       numberOfTeams: 0,
       players: [], // indexes {"id", "name"}
-      teams: [] // indexes {"id", "name", "members[ "id1", "id2" ]"}
+      teams: [] // indexes {"id", "members[ {"id":"34"} ]"}
     };
     this.onChangeNumberOfPlayers = this.onChangeNumberOfPlayers.bind(this);
     this.submitNumberOfPlayers = this.submitNumberOfPlayers.bind(this);
     this.onChangePlayerNames = this.onChangePlayerNames.bind(this);
     this.submitNumberOfTeams = this.submitNumberOfTeams.bind(this);
     this.onChangeNumberOfTeams = this.onChangeNumberOfTeams.bind(this);
-    this.onChangeTeamNames = this.onChangeTeamNames.bind(this);
     this.getAvailablePlayers = this.getAvailablePlayers.bind(this);
+    this.addPlayerToTeam = this.addPlayerToTeam.bind(this);
   }
 
   onChangeNumberOfPlayers(e) {
@@ -70,44 +65,42 @@ class NewGame extends React.Component {
 
   submitNumberOfTeams() {
     if(this.state.numberOfTeams >= 2 && this.state.numberOfTeams <= this.state.numberOfPlayers) {
-      let teams = [];
-      for(let i = 0; i < this.state.numberOfTeams; i++) {
-        teams.push({
-          "id": i,
-          "name": "",
-          "members": []
-        });
-        this.setState({
-          teams: teams
-        });
+
+      let flag = false;
+      this.state.players.forEach((player, index) => {
+        if(player.name === "") {
+          flag = true;
+        }
+      });
+
+      if(!flag) {
+        let teams = [];
+        for(let i = 0; i < this.state.numberOfTeams; i++) {
+          teams.push({
+            "id": i,
+            "members": []
+          });
+          this.setState({
+            teams: teams
+          });
+        }
       }
     }
-  }
-
-  onChangeTeamNames(e) {
-    // given id of form : teamrName_# where # is the index in json
-    let teamId = e.target.id.split("_")[1]; 
-    let teamName = e.target.value;
-    let newTeams = this.state.teams;
-    newTeams[teamId]["name"] = teamName;
-    this.setState({
-      teams: newTeams
-    });
   }
 
   getAvailablePlayers() {
     if(this.state.players !== [] && this.state.teams !== [] && this.state.teams.members !== []) {
       let availablePlayers = [];
       this.state.players.forEach((player, pIndex) => {
-        let flag = false;
+        let flag = true;
         this.state.teams.forEach((team, tIndex) => {
           team["members"].forEach((member, mIndex) => {
-            if(player["id"] === member) {
-              flag = true;
+            if(Number(player["id"]) == Number(member["id"]) ) {
+              flag = false;
             }
           });
         });
-        if(!flag) {
+        if(flag) {
           availablePlayers.push(player);
         }
       });
@@ -116,8 +109,23 @@ class NewGame extends React.Component {
     return null;
   }
 
-  // map to available players a button to be added to the particular team they are in
-  // build a function to get not available players. Actually use the previous one for both of them
+  addPlayerToTeam(e) {
+    // given id of form : availablePlayer_#1_#2 where #1 is the index of player id in json
+    // and #2 is the id of the team to be added if pressed
+    let args = e.target.id.split("_");
+    let playerId = args[1]; 
+    let teamId = args[2];
+
+    let newTeams = this.state.teams;
+    newTeams[teamId]["members"].push(
+      {
+        "id": playerId
+      }
+    );
+    this.setState({
+      teams: newTeams
+    });
+  }
 
   render() {
 
@@ -168,37 +176,56 @@ class NewGame extends React.Component {
           );
         }
       }
-      let divs = [];
+      
       let teamsDiv = [];
       if(this.state.teams !== []) {
         let flag = false;
-        let availablePlayers = this.getAvailablePlayers();
-        
-        availablePlayers.forEach((player, index) => {
-          divs.push(
-            <div key={"availablePlayer_"+index} >{player.name}</div>
-          );
-        });
 
-        this.state.teams.forEach((item, index) => {
+        this.state.teams.forEach((team, index) => {
           flag = true;
+
+          let availablePlayers = this.getAvailablePlayers();
+          let availablePlayersDiv = [];
+          availablePlayers.forEach((availablePlayer, APIndex) => {
+            availablePlayersDiv.push(
+              <button
+                id={"availablePlayer_"+availablePlayer["id"]+"_"+team["id"]}
+                onClick={this.addPlayerToTeam}
+                key={"availablePlayer_"+APIndex}
+                className="tag">
+                  {availablePlayer["name"]}
+              </button>
+            );
+          });
+          if(availablePlayers === [] || availablePlayers === null || availablePlayers.length === 0) {
+            availablePlayersDiv = <p className="msg">No available players left</p>;
+          }
+
+          let selectedPlayers = [];
+          team.members.forEach((member, mIndex) => {
+            selectedPlayers.push(
+              <button
+                key={"selectedPlayer_"+mIndex}
+                className="tag">
+                  {this.state.players[member["id"]]["name"]}
+              </button>
+            );
+          });
+          if(selectedPlayers.length === 0) {
+            selectedPlayers = <p className="msg">No members yet</p>;
+          }
+
           teamsDiv.push(
             <div className="player-section" key={"teamsDiv"+index}>
               <p className="title">Team: {index+1}</p>
-              <input 
-                type="text"
-                maxLength="20"
-                id={"teamName_"+index}
-                value={this.state.teams[index]["name"]}
-                onChange={this.onChangeTeamNames}
-                required={true}
-              />
-              <p>Name</p>
               <div className="add-players-div">
-                <div className="available-players">
-                  {divs}
+                <div className="player-tags">
+                  <p>Selected players</p>
+                  {selectedPlayers}
                 </div>
-                <div className="added-players">
+                <div className="player-tags">
+                  <p>Available players</p>
+                  {availablePlayersDiv}
                 </div>
               </div>
             </div>
@@ -206,42 +233,55 @@ class NewGame extends React.Component {
         });
         if(flag) {
           teamsDiv.unshift(<div className="line" key="teamsDiv_0000"></div>);
+          teamsDiv.push(
+            <div className="section" key={"teamsDiv9910"}>
+              <button
+                type="submit"
+                style={{"height":"40px", "backgroundColor":"#1B9AAA"}} 
+                className="submit-players-button" 
+                onClick={this.submitNumberOfTeams} >
+                Create game note
+              </button>
+            </div>
+          );
         }
       }
 
       return (
         <div className="NewGame">
-            <div className="NewGame-container">
-                <div className="header">
-                  <p>New Game</p>
-                  <a><i className="fa fa-arrow-left" /></a>
-                </div>
-                
-                <div className="line"></div>
+          <div className="NewGame-container">
+            <div className="header">
+              <p>New Game</p>
+                <Link to="/" >
+                  <i className="fa fa-arrow-left" />
+                </Link>
+              </div>
+              
+              <div className="line"></div>
 
-                <div className="section">
-                  <input 
-                    type="number" 
-                    placeholder="2" 
-                    maxLength="2"
-                    minLength="1"
-                    max="20"
-                    min="2"
-                    value={this.state.numberOfPlayers}
-                    onChange={this.onChangeNumberOfPlayers}
-                  />
-                  <p>Number of players</p>
-                  <button
-                    type="submit" 
-                    className="submit-players-button" 
-                    onClick={this.submitNumberOfPlayers} >
-                    Submit number of players
-                  </button>
-                </div>
+              <div className="section">
+                <input 
+                  type="number" 
+                  placeholder="2" 
+                  maxLength="2"
+                  minLength="1"
+                  max="20"
+                  min="2"
+                  value={this.state.numberOfPlayers}
+                  onChange={this.onChangeNumberOfPlayers}
+                />
+                <p>Number of players</p>
+                <button
+                  type="submit" 
+                  className="submit-players-button" 
+                  onClick={this.submitNumberOfPlayers} >
+                  Submit number of players
+                </button>
+              </div>
 
-                {playersDiv}
+              {playersDiv}
 
-                {teamsDiv}
+              {teamsDiv}
 
             </div>
         </div>

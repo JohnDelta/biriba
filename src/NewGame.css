@@ -118,3 +118,34 @@
     grid-column: 1/3;
     overflow: hidden;
 }
+
+.tag {
+    background-color: #147480 !important;
+    border: 1px solid #000000 !important;
+    margin: 5px !important;
+}
+
+.add-players-div {
+    display: grid;
+    row-gap: 10px;    
+    width: 100%;
+    grid-column: 1/3;
+}
+
+.player-tags {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #1B9AAA;
+    padding: 5px;
+}
+
+.player-tags p {
+    width: 100%;
+    font-size: 13px;
+    color: #0acce6;
+}
+
+.player-tags .msg {
+    font-size: 12px;
+    color: #F5F1E3;
+}
