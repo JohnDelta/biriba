@@ -252,7 +252,7 @@ class NewGame extends React.Component {
           <div className="NewGame-container">
             <div className="header">
               <p>New Game</p>
-                <Link to="/" >
+                <Link to="/biriba" >
                   <i className="fa fa-arrow-left" />
                 </Link>
               </div>

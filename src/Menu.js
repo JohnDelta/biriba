@@ -22,27 +22,27 @@ class Menu extends React.Component {
 
             <Switch>
 
-              <Route exact path="/">
+              <Route exact path="/biriba">
                 <div className="menu-container">
                     <div className="intro">
                         <h1>Menu</h1>
                     </div>
-                    <Link to="/new-game">
+                    <Link to="/biriba/new-game">
                         <i className="fa fa-plus" />
                         <p>New Game Notes</p>
                     </Link>
-                    <Link to="/unfinished-games">
+                    <Link to="/biriba/unfinished-games">
                         <i className="fa fa-edit" />
                         <p>Unfinished Game Notes</p>
                     </Link>
-                    <Link to="/history">
+                    <Link to="/biriba/history">
                         <i className="fa fa-clipboard" />
                         <p>History</p>
                     </Link>
                 </div>
               </Route>
 
-              <Route exact path="/new-game">
+              <Route exact path="/biriba/new-game">
                 <NewGame />
               </Route>
 

@@ -52,7 +52,7 @@ class App extends React.Component {
           this.setState({
             googleAuth: window.gapi.auth2.getAuthInstance()
           });
-          this.state.googleAuth.isSignedIn.listen(this.updateSigninStatus); 
+          this.state.googleAuth.isSignedIn.listen(this.updateSigninStatus);
       });
     } catch(e) {
       console.log(e);
@@ -84,11 +84,12 @@ class App extends React.Component {
 
     var user = await this.state.googleAuth.currentUser.get();
     var isAuthorized = user.hasGrantedScopes(SCOPE);
-      if(isAuthorized){
-        this.setState({
-          userMail: user.vt.cu
-        });
-      }
+    if(isAuthorized){
+      this.setState({
+        userMail: user.vt.cu
+      });
+    }
+
   }
 
   render() {
