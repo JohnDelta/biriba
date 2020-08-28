@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bd4c1d3af18967ee4474a4eff21dea0f",
+    "revision": "180716b655eb3b40e6ffd19dab561689",
     "url": "/biriba/index.html"
   },
   {
-    "revision": "c50ff3e1951b588c9b63",
+    "revision": "d77fa07ac1e54c51147f",
     "url": "/biriba/static/css/main.de9bf2e4.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/biriba/static/js/2.cb937514.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c50ff3e1951b588c9b63",
-    "url": "/biriba/static/js/main.c5531e52.chunk.js"
+    "revision": "d77fa07ac1e54c51147f",
+    "url": "/biriba/static/js/main.77afb82a.chunk.js"
   },
   {
     "revision": "f6858c69ed4ee0582800",
