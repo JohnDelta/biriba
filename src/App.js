@@ -6,12 +6,19 @@ import Logout from './Logout';
 
 import Keys from './Keys.js';
 
-var SCOPE = "https://www.googleapis.com/auth/drive.metadata.readonly";
+var SCOPE = "https://www.googleapis.com/auth/drive";
 var DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest";
 var API_KEY = Keys.getAPIKey();
 var CLIENT_ID = Keys.getClientID();
 
 class App extends React.Component {
+
+
+  /**
+   * - see if the file already exists
+   * - if it doesn't, create it to be ready to insert the first game
+   * - if it does read it
+   */
 
   constructor() {
     super();
@@ -19,7 +26,12 @@ class App extends React.Component {
     this.state = {
       name: "",
       googleAuth: "",
-      userMail: ""
+      userMail: "",
+      biriba: {
+        unfinishedGames: {
+          
+        }
+      }
     };
 
     this.initClient = this.initClient.bind(this);
@@ -28,6 +40,8 @@ class App extends React.Component {
     this.updateSigninStatus = this.updateSigninStatus.bind(this);
     this.handleClientLoad = this.handleClientLoad.bind(this);
     this.setSigninStatus = this.setSigninStatus.bind(this);
+    this.checkFileExists = this.checkFileExists.bind(this);
+    this.readFile = this.readFile.bind(this);
   }
 
   componentDidMount(){
@@ -92,8 +106,53 @@ class App extends React.Component {
 
   }
 
-  render() {
+  /**
+   * 
+   * Encapsulate the function into a promise to return a request when it can
+   * 
+   * then call the promise with .then and get the results from resolve
+   */
 
+  // find file and return its id if exists
+  checkFileExists = async (fname) => {
+    return new Promise((resolve, reject) => {
+      var req = window.gapi.client.drive.files.list({q: "name = '"+fname+"'"});
+      req.execute(function(r){
+        if(r.files && r.files.length && r.files[0].id){
+          resolve(r.files[0].id);
+          //return r.files[0].id;
+        } else {
+          reject(null);
+        }
+      });
+    });
+  }
+
+  // read file when you find it
+  readFile = async (callback) => {
+
+    this.checkFileExists("testing.txt").then((fileId)=>{
+      var request = window.gapi.client.drive.files.get({
+          fileId: fileId,
+          alt: 'media'
+      })
+      request.then(function(response) {
+          console.log(response); //response.body contains the string value of the file
+          if (typeof callback === "function") callback(response.body);
+      }, function(error) {
+          console.error(error)
+      })
+      return request;
+    });
+}
+
+  // biriba notes file exists in drive function (if it does return it else null)
+
+
+  // 
+
+  render() {
+    
     var screen = "";
     var header = "";
 
@@ -102,6 +161,10 @@ class App extends React.Component {
     } else {
       screen = <Menu />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
+
+      this.readFile();
+      //console.log(this.checkFileExists("testing.txt"));
+
     }
 
     return (

@@ -11,17 +11,12 @@ import {
 
 class Menu extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
       return (
         <Router>
           <div className="Menu">
 
             <Switch>
-
               <Route exact path="/biriba">
                 <div className="menu-container">
                     <div className="intro">

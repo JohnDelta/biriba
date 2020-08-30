@@ -20,10 +20,11 @@ class NewGame extends React.Component {
     this.onChangeNumberOfTeams = this.onChangeNumberOfTeams.bind(this);
     this.getAvailablePlayers = this.getAvailablePlayers.bind(this);
     this.addPlayerToTeam = this.addPlayerToTeam.bind(this);
+    this.removePlayerFromTeam = this.removePlayerFromTeam.bind(this);
+    this.createGameNote = this.createGameNote.bind(this);
   }
 
   onChangeNumberOfPlayers(e) {
-    let number = e.target.value;
     this.setState({
       numberOfPlayers: e.target.value,
       players: []
@@ -95,7 +96,7 @@ class NewGame extends React.Component {
         let flag = true;
         this.state.teams.forEach((team, tIndex) => {
           team["members"].forEach((member, mIndex) => {
-            if(Number(player["id"]) == Number(member["id"]) ) {
+            if(Number(player["id"]) === Number(member["id"]) ) {
               flag = false;
             }
           });
@@ -125,6 +126,37 @@ class NewGame extends React.Component {
     this.setState({
       teams: newTeams
     });
+  }
+
+  removePlayerFromTeam(e) {
+    // given id of form : selectedPlayer_#1_#2 where #1 is the index of player id in json
+    // and #2 is the id of the team to be added if pressed
+    let args = e.target.id.split("_");
+    let playerId = args[1];
+
+    let newTeams = [];
+    this.state.teams.forEach((team, tIndex) => {
+      let newTeamMembers = [];
+      team["members"].forEach((member, mIndex) => {
+        if(Number(member["id"]) !== Number(playerId)) {
+          newTeamMembers.push({"id": member["id"]});
+        }
+      });
+      newTeams.push({
+        "id": team["id"],
+        "members": newTeamMembers
+      })
+    });
+
+    this.setState({
+      teams: newTeams
+    });
+  }
+
+  createGameNote() {
+    // have a main file from parent and push in it the new object with teams and players
+    // along with scores and others it might have
+    
   }
 
   render() {
@@ -205,6 +237,8 @@ class NewGame extends React.Component {
           team.members.forEach((member, mIndex) => {
             selectedPlayers.push(
               <button
+                id={"selectedPlayer_"+member["id"]+"_"+team["id"]}
+                onClick={this.removePlayerFromTeam}
                 key={"selectedPlayer_"+mIndex}
                 className="tag">
                   {this.state.players[member["id"]]["name"]}
@@ -239,7 +273,7 @@ class NewGame extends React.Component {
                 type="submit"
                 style={{"height":"40px", "backgroundColor":"#1B9AAA"}} 
                 className="submit-players-button" 
-                onClick={this.submitNumberOfTeams} >
+                onClick={this.createGameNote} >
                 Create game note
               </button>
             </div>

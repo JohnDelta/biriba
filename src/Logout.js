@@ -3,10 +3,6 @@ import './Logout.css';
 
 class Logout extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
       return (
         <div className="Logout">
