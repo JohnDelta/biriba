@@ -154,8 +154,25 @@ class NewGame extends React.Component {
   }
 
   createGameNote() {
-    // have a main file from parent and push in it the new object with teams and players
-    // along with scores and others it might have
+    // check if file exists
+    // if it doesn't create the first in biribaNote, push
+    // and upload it
+
+    // if it does read it and push it and upload it
+
+    this.props.readFile().then((body)=>{
+      if(body === null || body === undefined) {
+        let unfinishedGame = {
+          "id": "haha"
+        };
+        let biribaNotes = this.props.biribaNotes;
+        biribaNotes.unfinishedGame.push(unfinishedGame);
+        this.props.updateBiribaNotes(biribaNotes);
+        this.props.uploadFile();
+      } else {
+
+      }
+    });
     
   }
 

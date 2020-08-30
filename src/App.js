@@ -27,11 +27,11 @@ class App extends React.Component {
       name: "",
       googleAuth: "",
       userMail: "",
-      biriba: {
-        unfinishedGames: {
-          
-        }
-      }
+      biribaNotes: {
+        unfinishedGames: [],
+        finishedGames: []
+      },
+      test: undefined
     };
 
     this.initClient = this.initClient.bind(this);
@@ -42,6 +42,8 @@ class App extends React.Component {
     this.setSigninStatus = this.setSigninStatus.bind(this);
     this.checkFileExists = this.checkFileExists.bind(this);
     this.readFile = this.readFile.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
+    this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
   }
 
   componentDidMount(){
@@ -106,21 +108,12 @@ class App extends React.Component {
 
   }
 
-  /**
-   * 
-   * Encapsulate the function into a promise to return a request when it can
-   * 
-   * then call the promise with .then and get the results from resolve
-   */
-
-  // find file and return its id if exists
   checkFileExists = async (fname) => {
     return new Promise((resolve, reject) => {
       var req = window.gapi.client.drive.files.list({q: "name = '"+fname+"'"});
       req.execute(function(r){
         if(r.files && r.files.length && r.files[0].id){
           resolve(r.files[0].id);
-          //return r.files[0].id;
         } else {
           reject(null);
         }
@@ -128,28 +121,64 @@ class App extends React.Component {
     });
   }
 
-  // read file when you find it
-  readFile = async (callback) => {
-
-    this.checkFileExists("testing.txt").then((fileId)=>{
-      var request = window.gapi.client.drive.files.get({
-          fileId: fileId,
-          alt: 'media'
-      })
-      request.then(function(response) {
-          console.log(response); //response.body contains the string value of the file
-          if (typeof callback === "function") callback(response.body);
-      }, function(error) {
-          console.error(error)
-      })
-      return request;
+  readFile = async () => {
+    return new Promise((resolve, reject) => {
+      this.checkFileExists("biriba-notes.txt").then((fileId) => {
+        var request = window.gapi.client.drive.files.get({
+            fileId: fileId,
+            alt: 'media'
+        });
+        request.then(function(response) {
+          resolve(response.body)
+        }, function(error) {
+          reject(null);
+        });
+      });
     });
-}
+  }
 
-  // biriba notes file exists in drive function (if it does return it else null)
+  uploadFile = () => {
+    // initalize meta data standard for the multipart method / upload the biriba notes file as json
+    const boundary='foo_bar_baz'
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const close_delim = "\r\n--" + boundary + "--";
+    var fileName = "biriba-notes";
+    var fileData = JSON.stringify(this.state.biribaNotes);
+    var contentType = 'text/plain';
+    var metadata = {
+      'name': fileName,
+      'mimeType': contentType
+    };
 
+    var multipartRequestBody =
+      delimiter +
+      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+      JSON.stringify(metadata) +
+      delimiter +
+      'Content-Type: ' + contentType + '\r\n\r\n' +
+      fileData+'\r\n'+
+      close_delim;
 
-  // 
+      var request = window.gapi.client.request({
+        'path': 'https://www.googleapis.com/upload/drive/v3/files',
+        'method': 'POST',
+        'params': {'uploadType': 'multipart'},
+        'headers': {
+          'Content-Type': 'multipart/related; boundary=' + boundary + ''
+        },
+        'body': multipartRequestBody});
+      request.execute(function(file) {
+        if(file.id !== undefined) {
+          console.log("file uploaded");
+        }
+      });
+  };
+
+  updateBiribaNotes(updatedBiribaNotes) {
+    this.setState({
+      biribaNotes: updatedBiribaNotes
+    });
+  }
 
   render() {
     
@@ -159,12 +188,13 @@ class App extends React.Component {
     if(this.state.userMail === "" || this.state.userMail === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
-      screen = <Menu />;
+      screen = <Menu 
+                biribaNotes={this.state.biribaNotes}
+                updateBiribaNotes={this.updateBiribaNotes}
+                readFile={this.readFile}
+                uploadFile={this.uploadFile} 
+              />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
-
-      this.readFile();
-      //console.log(this.checkFileExists("testing.txt"));
-
     }
 
     return (

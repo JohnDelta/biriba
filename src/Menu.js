@@ -11,6 +11,10 @@ import {
 
 class Menu extends React.Component {
 
+  constructor(props){
+    super(props);
+  }
+
   render() {
       return (
         <Router>
@@ -38,7 +42,12 @@ class Menu extends React.Component {
               </Route>
 
               <Route exact path="/biriba/new-game">
-                <NewGame />
+                <NewGame
+                  biribaNotes={this.props.biribaNotes}
+                  updateBiribaNotes={this.props.updateBiribaNotes}
+                  readFile={this.props.readFile}
+                  uploadFile={this.props.uploadFile}   
+                />
               </Route>
 
             </Switch>
