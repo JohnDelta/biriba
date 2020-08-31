@@ -111,7 +111,7 @@ class App extends React.Component {
   checkFileExists = async (fname) => {
     return new Promise((resolve, reject) => {
       var req = window.gapi.client.drive.files.list({q: "name = '"+fname+"'"});
-      req.execute(function(r){
+      req.execute((r) => {
         if(r.files && r.files.length && r.files[0].id){
           resolve(r.files[0].id);
         } else {
@@ -123,16 +123,26 @@ class App extends React.Component {
 
   readFile = async () => {
     return new Promise((resolve, reject) => {
+
       this.checkFileExists("biriba-notes.txt").then((fileId) => {
         var request = window.gapi.client.drive.files.get({
             fileId: fileId,
             alt: 'media'
         });
-        request.then(function(response) {
-          resolve(response.body)
-        }, function(error) {
-          reject(null);
+  
+        request.then((r) => {
+        
+          console.log("file with this id found");
+          resolve(r);
+        
+        }).catch((error) => {
+          console.log("file with this id does not exist");
+          reject("ID_NOT_EXIST");
         });
+  
+      }).catch((error) => {
+        console.log("file with this name does not exist");
+        reject("NAME_NOT_EXIT");
       });
     });
   }
@@ -193,6 +203,7 @@ class App extends React.Component {
                 updateBiribaNotes={this.updateBiribaNotes}
                 readFile={this.readFile}
                 uploadFile={this.uploadFile} 
+                checkFileExists={this.checkFileExists}
               />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
     }

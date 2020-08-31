@@ -47,6 +47,7 @@ class Menu extends React.Component {
                   updateBiribaNotes={this.props.updateBiribaNotes}
                   readFile={this.props.readFile}
                   uploadFile={this.props.uploadFile}   
+                  checkFileExists={this.props.checkFileExists}
                 />
               </Route>
 

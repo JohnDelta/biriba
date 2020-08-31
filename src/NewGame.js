@@ -154,24 +154,19 @@ class NewGame extends React.Component {
   }
 
   createGameNote() {
-    // check if file exists
-    // if it doesn't create the first in biribaNote, push
-    // and upload it
-
-    // if it does read it and push it and upload it
-
-    this.props.readFile().then((body)=>{
-      if(body === null || body === undefined) {
-        let unfinishedGame = {
-          "id": "haha"
-        };
-        let biribaNotes = this.props.biribaNotes;
-        biribaNotes.unfinishedGame.push(unfinishedGame);
-        this.props.updateBiribaNotes(biribaNotes);
-        this.props.uploadFile();
-      } else {
-
-      }
+    this.props.readFile().then((success) => {
+      // file was found, must update it
+      console.log("update existing file");
+    }).catch((error) => {
+      // file with this name was not found, must create new file
+      // first initialize biribaNotes.txt
+      let updatedBiribaNotes = this.props.biribaNotes;
+      updatedBiribaNotes = {
+        unfinishedGames: ["pssed here"],
+        finishedGames: []
+      };
+      this.props.updateBiribaNotes(updatedBiribaNotes);
+      this.props.uploadFile();
     });
     
   }
