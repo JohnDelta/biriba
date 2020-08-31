@@ -1,7 +1,13 @@
 import React from 'react';
 import './NewGame.css';
 
-import {Link} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+  Link
+} from "react-router-dom";
 
 class NewGame extends React.Component {
 
@@ -10,8 +16,8 @@ class NewGame extends React.Component {
     this.state = {
       numberOfPlayers: 0,
       numberOfTeams: 0,
-      players: [], // indexes {"id", "name"}
-      teams: [] // indexes {"id", "members[ {"id":"34"} ]"}
+      players: [],
+      teams: [],
     };
     this.onChangeNumberOfPlayers = this.onChangeNumberOfPlayers.bind(this);
     this.submitNumberOfPlayers = this.submitNumberOfPlayers.bind(this);
@@ -22,6 +28,7 @@ class NewGame extends React.Component {
     this.addPlayerToTeam = this.addPlayerToTeam.bind(this);
     this.removePlayerFromTeam = this.removePlayerFromTeam.bind(this);
     this.createGameNote = this.createGameNote.bind(this);
+    this.getDateToString = this.getDateToString.bind(this);
   }
 
   onChangeNumberOfPlayers(e) {
@@ -162,13 +169,36 @@ class NewGame extends React.Component {
       // first initialize biribaNotes.txt
       let updatedBiribaNotes = this.props.biribaNotes;
       updatedBiribaNotes = {
-        unfinishedGames: ["pssed here"],
+        unfinishedGames: [
+          {
+            "id": 0,
+            "date": this.getDateToString,
+            "teams": this.state.teams,
+            "players": this.state.players,
+            "rounds": [],
+            "finished": false
+          },
+        ],
         finishedGames: []
       };
       this.props.updateBiribaNotes(updatedBiribaNotes);
       this.props.uploadFile();
-    });
-    
+    }); 
+    this.props.history.push("/biriba");
+  }
+
+  getDateToString() {
+    let cal = new Date();
+    let year = cal.getFullYear();
+    let month = cal.getMonth() + 1;
+    month = (month < 10) ? "0" + month : month;
+    let day = cal.getDate();
+    day = (day < 10) ? "0" + day : day;
+    let hours = cal.getHours() + 1;
+    hours = (hours < 10) ? "0" + hours : hours;
+    let minutes = cal.getMinutes();
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    return day+"/"+month+"/"+year+"|"+hours+":"+minutes;
   }
 
   render() {
@@ -296,7 +326,7 @@ class NewGame extends React.Component {
       return (
         <div className="NewGame">
           <div className="NewGame-container">
-            <div className="header">
+              <div className="header">
               <p>New Game</p>
                 <Link to="/biriba" >
                   <i className="fa fa-arrow-left" />
@@ -325,15 +355,15 @@ class NewGame extends React.Component {
                 </button>
               </div>
 
-              {playersDiv}
+            {playersDiv}
 
-              {teamsDiv}
+            {teamsDiv}
 
-            </div>
+          </div>
         </div>
       );
   }
 
 }
 
-export default NewGame;
+export default withRouter(NewGame);

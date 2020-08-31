@@ -15,10 +15,46 @@ class App extends React.Component {
 
 
   /**
-   * - see if the file already exists
-   * - if it doesn't, create it to be ready to insert the first game
-   * - if it does read it
-   */
+   * biribaNotes.txt file format example:
+   * biribaNotes: {
+   *  unfinishedGames: [
+   *    {
+            "id": 0,
+            "date": "",
+            "teams": [
+              {
+                "id": "0",
+                "members": [
+                  {
+                    "id": "0"
+                  },
+                  {
+                    "id": "1"
+                  }
+                ]
+              }
+            ],
+            "players": [
+              {
+                "id": "0",
+                "name": "john"
+              },
+            ],
+            "rounds": [],
+            "finished": false
+        },
+      ],
+      finishedGames: [
+        {
+
+        },
+        {
+
+        }
+      ]
+   * }
+   * 
+  */
 
   constructor() {
     super();
@@ -27,10 +63,7 @@ class App extends React.Component {
       name: "",
       googleAuth: "",
       userMail: "",
-      biribaNotes: {
-        unfinishedGames: [],
-        finishedGames: []
-      },
+      biribaNotes: {},
       test: undefined
     };
 
