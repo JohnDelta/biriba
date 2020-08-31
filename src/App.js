@@ -19,28 +19,39 @@ class App extends React.Component {
    * biribaNotes: {
    *  unfinishedGames: [
    *    {
-            "id": 0,
+            "id": "id of unifinished game",
             "date": "",
             "teams": [
               {
-                "id": "0",
+                "id": "id of team",
                 "members": [
                   {
-                    "id": "0"
+                    "id": "id of player"
                   },
                   {
-                    "id": "1"
+                    "id": "id of player"
                   }
                 ]
               }
             ],
             "players": [
               {
-                "id": "0",
+                "id": "id of player",
                 "name": "john"
               },
             ],
-            "rounds": [],
+            "rounds": [
+              {
+                "round": 0,
+                "scores": [
+                  {
+                    "id": "teamId",
+                    "coundCardsScore": 0,
+                    "biribaScore": 0
+                  }
+                ]
+              }
+            ],
             "finished": false
         },
       ],
@@ -64,7 +75,7 @@ class App extends React.Component {
       googleAuth: "",
       userMail: "",
       biribaNotes: {},
-      test: undefined
+      fileId: ""
     };
 
     this.initClient = this.initClient.bind(this);
@@ -77,6 +88,7 @@ class App extends React.Component {
     this.readFile = this.readFile.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
     this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
+    this.updateFile = this.updateFile.bind(this);
   }
 
   componentDidMount(){
@@ -145,7 +157,7 @@ class App extends React.Component {
     return new Promise((resolve, reject) => {
       var req = window.gapi.client.drive.files.list({q: "name = '"+fname+"'"});
       req.execute((r) => {
-        if(r.files && r.files.length && r.files[0].id){
+        if(r.items && r.items.length && r.items[0].id){
           resolve(r.files[0].id);
         } else {
           reject(null);
@@ -157,16 +169,16 @@ class App extends React.Component {
   readFile = async () => {
     return new Promise((resolve, reject) => {
 
-      this.checkFileExists("biriba-notes.txt").then((fileId) => {
+      this.checkFileExists("biriba-notes").then((fileId) => {
         var request = window.gapi.client.drive.files.get({
             fileId: fileId,
             alt: 'media'
         });
   
-        request.then((r) => {
+        request.then((success) => {
         
           console.log("file with this id found");
-          resolve(r);
+          resolve(success);
         
         }).catch((error) => {
           console.log("file with this id does not exist");
@@ -181,46 +193,49 @@ class App extends React.Component {
   }
 
   uploadFile = () => {
-    // initalize meta data standard for the multipart method / upload the biriba notes file as json
-    const boundary='foo_bar_baz'
+    const boundary = '-------314159265358979323846264';
     const delimiter = "\r\n--" + boundary + "\r\n";
     const close_delim = "\r\n--" + boundary + "--";
-    var fileName = "biriba-notes";
-    var fileData = JSON.stringify(this.state.biribaNotes);
-    var contentType = 'text/plain';
-    var metadata = {
-      'name': fileName,
-      'mimeType': contentType
-    };
-
+    var base64Data = btoa(JSON.stringify(this.state.biribaNotes));
     var multipartRequestBody =
-      delimiter +
-      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      JSON.stringify(metadata) +
-      delimiter +
-      'Content-Type: ' + contentType + '\r\n\r\n' +
-      fileData+'\r\n'+
-      close_delim;
-
-      var request = window.gapi.client.request({
-        'path': 'https://www.googleapis.com/upload/drive/v3/files',
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify({"title": "biriba-notes"}) +
+        delimiter +
+        'Content-Type: ' + "text/plain" + '\r\n' +
+        'Content-Transfer-Encoding: base64\r\n' +
+        '\r\n' +
+        base64Data +
+        close_delim;
+    var request = window.gapi.client.request({
+        'path': '/upload/drive/v2/files',
         'method': 'POST',
         'params': {'uploadType': 'multipart'},
         'headers': {
-          'Content-Type': 'multipart/related; boundary=' + boundary + ''
+          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
         },
         'body': multipartRequestBody});
-      request.execute(function(file) {
-        if(file.id !== undefined) {
-          console.log("file uploaded");
-        }
-      });
+    request.execute(function(res) {
+      console.log('New file upploaded!');
+    });
   };
 
   updateBiribaNotes(updatedBiribaNotes) {
     this.setState({
       biribaNotes: updatedBiribaNotes
     });
+  }
+
+  updateFile = () => {
+    // var request = window.gapi.client.drive.files.delete({
+    //   'fileId': this.state.fileId
+    // });
+
+    // request.execute((response) => {
+    //   console.log(response);
+    // });
+
+    console.log("file deleted");
   }
 
   render() {
@@ -236,6 +251,7 @@ class App extends React.Component {
                 updateBiribaNotes={this.updateBiribaNotes}
                 readFile={this.readFile}
                 uploadFile={this.uploadFile} 
+                updateFile={this.updateFile}
                 checkFileExists={this.checkFileExists}
               />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;

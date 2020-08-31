@@ -162,27 +162,66 @@ class NewGame extends React.Component {
 
   createGameNote() {
     this.props.readFile().then((success) => {
+      console.log("read file : " + success);
       // file was found, must update it
-      console.log("update existing file");
+      // first update biribaNotes.txt with the new game and first round
+      let updatedBiribaNotes = JSON.parse(success.body);
+      let newRound = {
+        "number": 0,
+        "scores": []
+      };
+      this.state.teams.forEach((team, tIndex) => {
+        newRound.scores.push({
+          "teamId": team.id,
+          "countCardsScore": 0,
+          "biribaScore": 0
+        });
+      });
+      let newUnfinishedGame = {
+        "id": updatedBiribaNotes.unfinishedGames.length + 1,
+        "date": this.getDateToString(),
+        "teams": this.state.teams,
+        "players": this.state.players,
+        "rounds": [newRound],
+        "finished": false
+      };
+      updatedBiribaNotes.unfinishedGames.push(newUnfinishedGame);
+      this.props.updateBiribaNotes(updatedBiribaNotes);
+      console.log("calling update existing file...");
+      this.props.updateFile();
+      
     }).catch((error) => {
+      console.log("read error file : " + error);
       // file with this name was not found, must create new file
-      // first initialize biribaNotes.txt
+      // first initialize biribaNotes.txt with the first game and first round
+      let newRound = {
+        "number": 1,
+        "scores": []
+      };
+      this.state.teams.forEach((team, tIndex) => {
+        newRound.scores.push({
+          "teamId": team.id,
+          "countCardsScore": 0,
+          "biribaScore": 0
+        });
+      });
       let updatedBiribaNotes = this.props.biribaNotes;
       updatedBiribaNotes = {
         unfinishedGames: [
           {
             "id": 0,
-            "date": this.getDateToString,
+            "date": this.getDateToString(),
             "teams": this.state.teams,
             "players": this.state.players,
-            "rounds": [],
+            "rounds": [newRound],
             "finished": false
           },
         ],
         finishedGames: []
       };
       this.props.updateBiribaNotes(updatedBiribaNotes);
-      this.props.uploadFile();
+      console.log("calling upload new file...");
+      //this.props.uploadFile();
     }); 
     this.props.history.push("/biriba");
   }
