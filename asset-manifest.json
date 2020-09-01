@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/biriba/static/css/main.de9bf2e4.chunk.css",
-    "main.js": "/biriba/static/js/main.77afb82a.chunk.js",
-    "main.js.map": "/biriba/static/js/main.77afb82a.chunk.js.map",
+    "main.js": "/biriba/static/js/main.41ecdb43.chunk.js",
+    "main.js.map": "/biriba/static/js/main.41ecdb43.chunk.js.map",
     "runtime-main.js": "/biriba/static/js/runtime-main.930940ba.js",
     "runtime-main.js.map": "/biriba/static/js/runtime-main.930940ba.js.map",
-    "static/js/2.cb937514.chunk.js": "/biriba/static/js/2.cb937514.chunk.js",
-    "static/js/2.cb937514.chunk.js.map": "/biriba/static/js/2.cb937514.chunk.js.map",
+    "static/js/2.e914ff31.chunk.js": "/biriba/static/js/2.e914ff31.chunk.js",
+    "static/js/2.e914ff31.chunk.js.map": "/biriba/static/js/2.e914ff31.chunk.js.map",
     "index.html": "/biriba/index.html",
-    "precache-manifest.05d4211366c3d464563c75c07fe591f7.js": "/biriba/precache-manifest.05d4211366c3d464563c75c07fe591f7.js",
+    "precache-manifest.857f2826c9dbf97fbdc9fe51dd691fc5.js": "/biriba/precache-manifest.857f2826c9dbf97fbdc9fe51dd691fc5.js",
     "service-worker.js": "/biriba/service-worker.js",
     "static/css/main.de9bf2e4.chunk.css.map": "/biriba/static/css/main.de9bf2e4.chunk.css.map",
-    "static/js/2.cb937514.chunk.js.LICENSE.txt": "/biriba/static/js/2.cb937514.chunk.js.LICENSE.txt",
+    "static/js/2.e914ff31.chunk.js.LICENSE.txt": "/biriba/static/js/2.e914ff31.chunk.js.LICENSE.txt",
     "static/media/App.css": "/biriba/static/media/background.917b080e.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.930940ba.js",
-    "static/js/2.cb937514.chunk.js",
+    "static/js/2.e914ff31.chunk.js",
     "static/css/main.de9bf2e4.chunk.css",
-    "static/js/main.77afb82a.chunk.js"
+    "static/js/main.41ecdb43.chunk.js"
   ]
 }

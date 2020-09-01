@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "180716b655eb3b40e6ffd19dab561689",
+    "revision": "9f0e7212caec42f1fd25722ec082700a",
     "url": "/biriba/index.html"
   },
   {
-    "revision": "d77fa07ac1e54c51147f",
+    "revision": "51776ad9af1405ad79e3",
     "url": "/biriba/static/css/main.de9bf2e4.chunk.css"
   },
   {
-    "revision": "6283066d18b13bc353d3",
-    "url": "/biriba/static/js/2.cb937514.chunk.js"
+    "revision": "d0769df1b5bd416b2ec6",
+    "url": "/biriba/static/js/2.e914ff31.chunk.js"
   },
   {
     "revision": "c64c486544348f10a6d6c716950bc223",
-    "url": "/biriba/static/js/2.cb937514.chunk.js.LICENSE.txt"
+    "url": "/biriba/static/js/2.e914ff31.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d77fa07ac1e54c51147f",
-    "url": "/biriba/static/js/main.77afb82a.chunk.js"
+    "revision": "51776ad9af1405ad79e3",
+    "url": "/biriba/static/js/main.41ecdb43.chunk.js"
   },
   {
     "revision": "f6858c69ed4ee0582800",
