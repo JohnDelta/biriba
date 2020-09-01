@@ -1,6 +1,7 @@
 import React from 'react';
 import './Menu.css';
 import NewGame from './NewGame';
+import UnfinishedGames from './UnfinishedGames';
 
 import {
   BrowserRouter as Router,
@@ -48,7 +49,16 @@ class Menu extends React.Component {
                   readFile={this.props.readFile}
                   uploadFile={this.props.uploadFile}   
                   updateFile={this.props.updateFile}
-                  checkFileExists={this.props.checkFileExists}
+                />
+              </Route>
+
+              <Route exact path="/biriba/unfinished-games">
+                <UnfinishedGames
+                  biribaNotes={this.props.biribaNotes}
+                  updateBiribaNotes={this.props.updateBiribaNotes}
+                  readFile={this.props.readFile}
+                  uploadFile={this.props.uploadFile}   
+                  updateFile={this.props.updateFile}
                 />
               </Route>
 

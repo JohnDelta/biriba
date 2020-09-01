@@ -1,0 +1,90 @@
+/*
+
+    Color Pallete
+        Rich black: #050505
+            ligher: #1a1a1a
+                lighter: #2f2f2f
+                darker: #131313
+
+        Blue Munsell: #1B9AAA 
+            lighter: #28b7c9
+            darker: #147480
+
+        Alabaster: #F5F1E3
+
+*/
+
+.UnfinishedGames {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: transparent;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.UnfinishedGames-container {
+    min-width: 250px;
+    width: 90%;
+    max-width: 300px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    background-color: #1a1a1a;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    color: #F5F1E3;
+    padding: 10px;
+    row-gap: 10px;
+}
+
+.UnfinishedGames-container > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.UnfinishedGames-container > .header a {
+    color: #F5F1E3;
+    width: 45px;
+    height: 45px;
+    background-color: #2f2f2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.UnfinishedGames-container > .header a:active {
+    background-color: #131313;
+}
+
+.UnfinishedGames-container > .header p {
+    color: #F5F1E3;
+    font-size: 16px;
+}
+
+.UnfinishedGames-container > .header i {
+
+}
+
+.UnfinishedGames-container .line {
+    width: 100%;
+    height: 2px;
+    background-color: #1B9AAA;
+    justify-self: center;
+    align-self: center;
+}
+
+.UnfinishedGames-container > .section {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto;
+    column-gap: 10px;
+    row-gap: 10px;
+    align-items: center;
+}
+
+.UnfinishedGame-part {
+    
+}
