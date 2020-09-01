@@ -153,11 +153,11 @@ class App extends React.Component {
 
   }
 
-  checkFileExists = async (fname) => {
+  checkFileExists = async () => {
     return new Promise((resolve, reject) => {
-      var req = window.gapi.client.drive.files.list({q: "name = '"+fname+"'"});
+      var req = window.gapi.client.drive.files.list({q: "name='biriba-notes'"});
       req.execute((r) => {
-        if(r.items && r.items.length && r.items[0].id){
+        if(r.files && r.files.length && r.files[0].id){
           resolve(r.files[0].id);
         } else {
           reject(null);
@@ -169,7 +169,11 @@ class App extends React.Component {
   readFile = async () => {
     return new Promise((resolve, reject) => {
 
-      this.checkFileExists("biriba-notes").then((fileId) => {
+      this.checkFileExists().then((fileId) => {
+        this.setState({
+          fileId: fileId
+        });
+
         var request = window.gapi.client.drive.files.get({
             fileId: fileId,
             alt: 'media'
@@ -227,15 +231,31 @@ class App extends React.Component {
   }
 
   updateFile = () => {
-    // var request = window.gapi.client.drive.files.delete({
-    //   'fileId': this.state.fileId
-    // });
-
-    // request.execute((response) => {
-    //   console.log(response);
-    // });
-
-    console.log("file deleted");
+    const boundary = '-------314159265358979323846264';
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const close_delim = "\r\n--" + boundary + "--";
+    var base64Data = btoa(JSON.stringify(this.state.biribaNotes));
+    var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify({"title": "biriba-notes"}) +
+        delimiter +
+        'Content-Type: ' + "text/plain" + '\r\n' +
+        'Content-Transfer-Encoding: base64\r\n' +
+        '\r\n' +
+        base64Data +
+        close_delim;
+    var request = window.gapi.client.request({
+        'path': '/upload/drive/v2/files/' + this.state.fileId,
+        'method': 'PUT',
+        'params': {'uploadType': 'multipart', 'alt': 'json'},
+        'headers': {
+          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+        },
+        'body': multipartRequestBody});
+    request.execute(function(res) {
+      console.log('File updated!');
+    });
   }
 
   render() {

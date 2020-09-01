@@ -221,7 +221,7 @@ class NewGame extends React.Component {
       };
       this.props.updateBiribaNotes(updatedBiribaNotes);
       console.log("calling upload new file...");
-      //this.props.uploadFile();
+      this.props.uploadFile();
     }); 
     this.props.history.push("/biriba");
   }
