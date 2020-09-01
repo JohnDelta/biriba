@@ -161,11 +161,10 @@ class NewGame extends React.Component {
   }
 
   createGameNote() {
-    this.props.readFile().then((success) => {
-      console.log("read file : " + success);
+    if(this.props.biribaNotes) {
       // file was found, must update it
       // first update biribaNotes.txt with the new game and first round
-      let updatedBiribaNotes = JSON.parse(success.body);
+      let updatedBiribaNotes = this.props.biribaNotes;
       let newRound = {
         "number": 0,
         "scores": []
@@ -190,8 +189,7 @@ class NewGame extends React.Component {
       console.log("calling update existing file...");
       this.props.updateFile();
       
-    }).catch((error) => {
-      console.log("read error file : " + error);
+    } else {
       // file with this name was not found, must create new file
       // first initialize biribaNotes.txt with the first game and first round
       let newRound = {
@@ -222,7 +220,7 @@ class NewGame extends React.Component {
       this.props.updateBiribaNotes(updatedBiribaNotes);
       console.log("calling upload new file...");
       this.props.uploadFile();
-    }); 
+    } 
     this.props.history.push("/biriba");
   }
 

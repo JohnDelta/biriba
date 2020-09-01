@@ -14,7 +14,7 @@
 
 */
 
-.UnfinishedGames {
+.UnfinishedGame {
     width: 100vw;
     min-height: 100vh;
     background-color: transparent;
@@ -24,7 +24,7 @@
     align-items: center;
 }
 
-.UnfinishedGames-container {
+.UnfinishedGame-container {
     min-width: 250px;
     width: 90%;
     max-width: 300px;
@@ -39,13 +39,13 @@
     row-gap: 10px;
 }
 
-.UnfinishedGames-container > .header {
+.UnfinishedGame-container > .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.UnfinishedGames-container > .header a {
+.UnfinishedGame-container > .header a {
     color: #F5F1E3;
     width: 45px;
     height: 45px;
@@ -55,20 +55,20 @@
     align-items: center;
 }
 
-.UnfinishedGames-container > .header a:active {
+.UnfinishedGame-container > .header a:active {
     background-color: #131313;
 }
 
-.UnfinishedGames-container > .header p {
+.UnfinishedGame-container > .header p {
     color: #F5F1E3;
     font-size: 16px;
 }
 
-.UnfinishedGames-container > .header i {
+.UnfinishedGame-container > .header i {
 
 }
 
-.UnfinishedGames-container .line {
+.UnfinishedGame-container .line {
     width: 100%;
     height: 2px;
     background-color: #1B9AAA;
@@ -76,51 +76,11 @@
     align-self: center;
 }
 
-.UnfinishedGames-container > .section {
+.UnfinishedGame-container > .section {
     display: grid;
     grid-template-rows: auto auto;
     grid-template-columns: auto;
     column-gap: 10px;
     row-gap: 10px;
     align-items: center;
-}
-
-.UnfinishedGame-part {
-    display: grid;
-    grid-template-columns: auto auto;
-    row-gap: 5px;
-    justify-content: space-evenly;
-    background-color: #2f2f2f;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.UnfinishedGame-part:active {
-    background-color: #1a1a1a;
-}
-
-.UnfinishedGame-part > * {
-    pointer-events: none;
-}
-
-.UnfinishedGame-part i {
-    margin-right: 2px;
-    font-size: 12px;
-    color: #1B9AAA;
-}
-
-.UnfinishedGame-part > .inline {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.UnfinishedGame-part > .title {
-    font-weight: 500;
-    color: #1B9AAA;
-    font-size: 15px;
-}
-
-.UnfinishedGame-part .inline > .date {
-    font-size: 12px;
 }

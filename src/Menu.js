@@ -2,6 +2,7 @@ import React from 'react';
 import './Menu.css';
 import NewGame from './NewGame';
 import UnfinishedGames from './UnfinishedGames';
+import UnfinishedGame from './UnfinishedGame';
 
 import {
   BrowserRouter as Router,
@@ -46,7 +47,6 @@ class Menu extends React.Component {
                 <NewGame
                   biribaNotes={this.props.biribaNotes}
                   updateBiribaNotes={this.props.updateBiribaNotes}
-                  readFile={this.props.readFile}
                   uploadFile={this.props.uploadFile}   
                   updateFile={this.props.updateFile}
                 />
@@ -56,7 +56,18 @@ class Menu extends React.Component {
                 <UnfinishedGames
                   biribaNotes={this.props.biribaNotes}
                   updateBiribaNotes={this.props.updateBiribaNotes}
-                  readFile={this.props.readFile}
+                  uploadFile={this.props.uploadFile}   
+                  updateFile={this.props.updateFile}
+                  updateUnfinishedGameId={this.props.updateUnfinishedGameId}
+                  unfinishedGameId={this.props.unfinishedGameId}
+                />
+              </Route>
+
+              <Route exact path="/biriba/unfinished-games/game">
+                <UnfinishedGame
+                  UnfinishedGameId={this.props.unfinishedGameId}
+                  biribaNotes={this.props.biribaNotes}
+                  updateBiribaNotes={this.props.updateBiribaNotes}
                   uploadFile={this.props.uploadFile}   
                   updateFile={this.props.updateFile}
                 />

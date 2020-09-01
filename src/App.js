@@ -46,7 +46,7 @@ class App extends React.Component {
                 "scores": [
                   {
                     "id": "teamId",
-                    "coundCardsScore": 0,
+                    "countCardsScore": 0,
                     "biribaScore": 0
                   }
                 ]
@@ -75,7 +75,8 @@ class App extends React.Component {
       googleAuth: "",
       userMail: "",
       biribaNotes: {},
-      fileId: ""
+      fileId: "",
+      unfinishedGameId: -1
     };
 
     this.initClient = this.initClient.bind(this);
@@ -89,6 +90,7 @@ class App extends React.Component {
     this.uploadFile = this.uploadFile.bind(this);
     this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
     this.updateFile = this.updateFile.bind(this);
+    this.updateUnfinishedGameId = this.updateUnfinishedGameId.bind(this);
   }
 
   componentDidMount(){
@@ -151,6 +153,16 @@ class App extends React.Component {
       });
     }
 
+    //load data if exist
+    this.readFile().then((success) => {
+      console.log("File read : "+success);
+      this.setState({
+        biribaNotes: JSON.parse(success.body)
+      });
+    }).catch((error) => {
+      // no available unfinished game
+      console.log("No available file : "+error);
+    });
   }
 
   checkFileExists = async () => {
@@ -258,6 +270,12 @@ class App extends React.Component {
     });
   }
 
+  updateUnfinishedGameId(id) {
+    this.setState({
+      unfinishedGameId: id
+    });
+  }
+
   render() {
     
     var screen = "";
@@ -269,10 +287,10 @@ class App extends React.Component {
       screen = <Menu 
                 biribaNotes={this.state.biribaNotes}
                 updateBiribaNotes={this.updateBiribaNotes}
-                readFile={this.readFile}
                 uploadFile={this.uploadFile} 
                 updateFile={this.updateFile}
-                checkFileExists={this.checkFileExists}
+                updateUnfinishedGameId={this.updateUnfinishedGameId}
+                unfinishedGameId={this.unfinishedGameId}
               />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
     }
