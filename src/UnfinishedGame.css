@@ -84,3 +84,39 @@
     row-gap: 10px;
     align-items: center;
 }
+
+.game-div {
+    display: grid;
+    row-gap: 10px;
+}
+
+.round-div {
+    background-color: #131313;
+    padding: 3px;
+    display: grid;
+}
+
+.round-div > button {
+    background-color: #2f2f2f;
+    
+}
+
+.team-rounds-div {
+    max-height: 0px;
+}
+
+.team-rounds-div-active {
+    max-height: 100% !important;
+}
+
+.team-round-div {
+
+}
+
+.team-score-div {
+
+}
+
+.members-div {
+
+}

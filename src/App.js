@@ -74,7 +74,85 @@ class App extends React.Component {
       name: "",
       googleAuth: "",
       userMail: "",
-      biribaNotes: {},
+      biribaNotes: 
+      {
+          unfinishedGames: [
+            {
+                 "id": 0,
+                 "date": "01/01/2013|12:12",
+                 "teams": [
+                   {
+                     "id": 0,
+                     "members": [
+                       {
+                         "id": 0
+                       }
+                     ]
+                   },
+                   {
+                    "id": 1,
+                    "members": [
+                      {
+                        "id": 1
+                      }
+                    ]
+                  }
+                 ],
+                 "players": [
+                   {
+                     "id": 0,
+                     "name": "john"
+                   },
+                   {
+                     "id": 1,
+                     "name": "delta"
+                   }
+                 ],
+                 "rounds": [
+                   {
+                     "round": 0,
+                     "scores": [
+                       {
+                         "id": 0,
+                         "countCardsScore": 0,
+                         "biribaScore": 0
+                       },
+                       {
+                        "id": 1,
+                        "countCardsScore": 0,
+                        "biribaScore": 0
+                      }
+                     ]
+                   },
+                   {
+                    "round": 1,
+                    "scores": [
+                      {
+                        "id": 0,
+                        "countCardsScore": 0,
+                        "biribaScore": 0
+                      },
+                      {
+                       "id": 1,
+                       "countCardsScore": 0,
+                       "biribaScore": 0
+                     }
+                    ]
+                  }
+                 ],
+                 "finished": false
+             },
+           ],
+           finishedGames: [
+             {
+     
+             },
+             {
+     
+             }
+           ]
+      }
+      ,
       fileId: "",
       unfinishedGameId: -1
     };
@@ -281,7 +359,7 @@ class App extends React.Component {
     var screen = "";
     var header = "";
 
-    if(this.state.userMail === "" || this.state.userMail === undefined) {
+    if(this.state.userMail === "" && this.state.userMail === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
       screen = <Menu 
@@ -290,7 +368,7 @@ class App extends React.Component {
                 uploadFile={this.uploadFile} 
                 updateFile={this.updateFile}
                 updateUnfinishedGameId={this.updateUnfinishedGameId}
-                unfinishedGameId={this.unfinishedGameId}
+                unfinishedGameId={this.state.unfinishedGameId}
               />;
       header = <Logout userMail={this.state.userMail} signOutFunction={this.signOutFunction} />;
     }

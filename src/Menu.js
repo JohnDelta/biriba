@@ -65,7 +65,8 @@ class Menu extends React.Component {
 
               <Route exact path="/biriba/unfinished-games/game">
                 <UnfinishedGame
-                  UnfinishedGameId={this.props.unfinishedGameId}
+                  //unfinishedGameId={this.props.unfinishedGameId}
+                  unfinishedGameId={0}
                   biribaNotes={this.props.biribaNotes}
                   updateBiribaNotes={this.props.updateBiribaNotes}
                   uploadFile={this.props.uploadFile}   
