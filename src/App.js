@@ -115,12 +115,14 @@ class App extends React.Component {
                        {
                          "id": 0,
                          "countCardsScore": 0,
-                         "biribaScore": 0
+                         "biribaScore": 0,
+                         "penalties": 0
                        },
                        {
                         "id": 1,
                         "countCardsScore": 0,
-                        "biribaScore": 0
+                        "biribaScore": 0,
+                        "penalties": 0
                       }
                      ]
                    },
@@ -130,12 +132,14 @@ class App extends React.Component {
                       {
                         "id": 0,
                         "countCardsScore": 0,
-                        "biribaScore": 0
+                        "biribaScore": 0,
+                        "penalties": 0
                       },
                       {
                        "id": 1,
                        "countCardsScore": 0,
-                       "biribaScore": 0
+                       "biribaScore": 0,
+                       "penalties": 0
                      }
                     ]
                   }
@@ -362,7 +366,7 @@ class App extends React.Component {
     if(this.state.userMail === "" && this.state.userMail === undefined) {
       screen = <Login signInFunction={this.signInFunction} />;
     } else {
-      screen = <Menu 
+      screen = <Menu
                 biribaNotes={this.state.biribaNotes}
                 updateBiribaNotes={this.updateBiribaNotes}
                 uploadFile={this.uploadFile} 

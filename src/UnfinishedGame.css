@@ -98,14 +98,17 @@
 
 .round-div > button {
     background-color: #2f2f2f;
-    
 }
 
-.team-rounds-div {
+.round-div > button:active {
+    background-color: #1a1a1a;
+}
+
+.teams-round-div {
     max-height: 0px;
 }
 
-.team-rounds-div-active {
+.teams-round-div-active {
     max-height: 100% !important;
 }
 
@@ -113,10 +116,92 @@
 
 }
 
-.team-score-div {
+.team-div {
+    display: grid;
+}
+
+.team-div > button {
+    background-color: #1a1a1a;
+}
+
+.team-div > button:active {
+    background-color: #131313;
+}
+
+.team-members-div {
+    display: grid;
+    padding: 5px 5px 0px 5px;
+}
+
+.team-members-div > p {
+    color: #1B9AAA;
+    font-weight: 500;
+    padding-bottom: 1px;
+    border-bottom: 1.2px solid #1B9AAA;
+    margin-bottom: 2px;
+}
+
+.members {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.members > div {
+    border: 1px solid #1B9AAA;
+    padding: 3px;
+    margin: 3px;
+}
+
+.team-info-div {
+    height: 0px;
+}
+
+.team-info-div-active {
+    height: 100% !important;
+}
+
+.round-score-div {
+    display: grid;
+    padding: 5px;
+}
+
+.round-score-div > p {
+    color: #1B9AAA;
+    font-weight: 500;
+    padding-bottom: 1px;
+    border-bottom: 1.2px solid #1B9AAA;
+    margin-bottom: 2px;
+}
+
+.round-score-div > div {
+    display: grid;
+    grid-template-columns: 0.7fr 0.3fr;
+    align-items: center;
+}
+
+.round-score-div > div p {
 
 }
 
-.members-div {
+.round-score-div > div input[type=number] {
+    
+}
 
+.save-options {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+    column-gap: 5px;
+    justify-items: center;
+    padding: 5px;
+}
+
+.save-options > button {
+    font-weight: 400;
+    background-color: #1a1a1a;
+    color: #1B9AAA;
+    border: 1px solid #1B9AAA;
+}
+
+.save-options > button:active {
+    background-color: #000;
 }

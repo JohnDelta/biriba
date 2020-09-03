@@ -200,7 +200,8 @@ class NewGame extends React.Component {
         newRound.scores.push({
           "teamId": team.id,
           "countCardsScore": 0,
-          "biribaScore": 0
+          "biribaScore": 0,
+          "penalties": 0
         });
       });
       let updatedBiribaNotes = this.props.biribaNotes;
