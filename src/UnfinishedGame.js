@@ -20,6 +20,7 @@ class UnfinishedGame extends React.Component {
     this.onScoreChange = this.onScoreChange.bind(this);
     this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
     this.resetBiribaNotes = this.resetBiribaNotes.bind(this);
+    this.onRoundInfoChange = this.onRoundInfoChange.bind(this);
   }
 
   /**
@@ -65,6 +66,23 @@ class UnfinishedGame extends React.Component {
             } 
           }
         });
+      }
+    });
+
+    this.setState({
+      biribaNotes: biribaNotes
+    });
+  }
+
+  onRoundInfoChange(e) {
+    // given id format of "nameOfField_#idOfRound"
+    let args = e.target.id.split("_");
+    let field = args[0];
+    let roundOfInfo = args[1];
+    let biribaNotes = this.state.biribaNotes;
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.forEach((round, rIndex) => {
+      if(Number(round.round) === Number(roundOfInfo)) {
+        round[field] = e.target.value
       }
     });
 
@@ -161,6 +179,7 @@ class UnfinishedGame extends React.Component {
               <div>
                 <p>Total round score</p>
                 <input 
+                  key={totalRoundScore}
                   type="number"
                   min="0"
                   readOnly={true}
@@ -169,7 +188,8 @@ class UnfinishedGame extends React.Component {
               </div>
               <div>
                 <p>Total score</p>
-                <input 
+                <input
+                  key={totalScore}
                   type="number"
                   min="0"
                   readOnly={true}
@@ -231,6 +251,40 @@ class UnfinishedGame extends React.Component {
         );
       });
 
+      // find biriba & card dealer candidates 
+      let candidates = [];
+      let biribaDealerId = "";
+      let cardDealerId = "";
+      unfinishedGame.players.forEach((player, pIndex) => {
+        if(player.id === round.biribaDealer) {
+          biribaDealerId = player.id;
+        }
+        if(player.id === round.cardDealer) {
+          cardDealerId = player.id;
+        }
+        candidates.push(
+          <option value={player.id}>{player.name}</option>
+        );
+      });
+
+      // find trump card
+      let cardNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+      let cardSymbols = ["KA", "TR", "SP", "KO"];
+      let candidateCardNumbers = [];
+      let candidateCardSymbols = [];
+      
+      cardNumbers.forEach((cardNumber, cIndex) => {
+        candidateCardNumbers.push(
+          <option value={cardNumber}>{cardNumber}</option>
+        );
+      });
+
+      cardSymbols.forEach((cardSymbol, cIndex) => {
+        candidateCardSymbols.push(
+          <option value={cardSymbol}>{cardSymbol}</option>
+        );
+      });
+
       roundDiv.push(
         <div className="round-div" key={"roundDiv"+rIndex}>
           <button
@@ -241,6 +295,47 @@ class UnfinishedGame extends React.Component {
           </button>
           <div className="teams-round-div">
             {teamRoundDiv}
+            <div className="round-info">
+              <div className="info">
+                <p>Biriba dealer</p>
+                <select
+                  id={"biribaDealer_"+round.round}
+                  onChange={this.onRoundInfoChange}
+                  defaultValue={biribaDealerId}
+                >
+                  {candidates}
+                </select>
+              </div>
+              <div className="info">
+                <p>Card dealer</p>
+                <select
+                  id={"cardDealer_"+round.round}
+                  onChange={this.onRoundInfoChange}
+                  defaultValue={cardDealerId}
+                >
+                  {candidates}
+                </select>
+              </div>
+              <div className="info">
+                <p>Trump</p>
+                <select
+                  defaultValue={round.trumpNumber}
+                  id={"trumpNumber_"+round.round} 
+                  style={{gridColumn:"1/2", gridRow:"2/3"}}
+                  onChange={this.onRoundInfoChange}
+                >
+                  {candidateCardNumbers}
+                </select>
+                <select
+                  defaultValue={round.trumpSymbol}
+                  id={"trumpSymbol_"+round.round} 
+                  style={{gridColumn:"2/3", gridRow:"2/3"}}
+                  onChange={this.onRoundInfoChange}
+                >
+                  {candidateCardSymbols}
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       );

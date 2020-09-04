@@ -123,8 +123,12 @@ class App extends React.Component {
                         "countCardsScore": 0,
                         "biribaScore": 0,
                         "penalties": 0
-                      }
-                     ]
+                      },
+                     ],
+                     "cardDealer": "",
+                     "biribaDealer": "",
+                     "trumpNumber": "",
+                     "trumpSymbol": ""
                    },
                    {
                     "round": 1,
@@ -141,7 +145,11 @@ class App extends React.Component {
                        "biribaScore": 0,
                        "penalties": 0
                      }
-                    ]
+                    ],
+                    "cardDealer": "",
+                    "biribaDealer": "",
+                    "trumpNumber": "",
+                    "trumpSymbol": ""
                   }
                  ],
                  "finished": false

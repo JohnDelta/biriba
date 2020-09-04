@@ -194,14 +194,18 @@ class NewGame extends React.Component {
       // first initialize biribaNotes.txt with the first game and first round
       let newRound = {
         "number": 1,
-        "scores": []
+        "scores": [],
+        "cardDealer": 0,
+        "biribaDealer": Number(this.state.players.length - 1),
+        "trumpNumber": 1,
+        "trumpSymbol": "KA"
       };
       this.state.teams.forEach((team, tIndex) => {
         newRound.scores.push({
           "teamId": team.id,
           "countCardsScore": 0,
           "biribaScore": 0,
-          "penalties": 0
+          "penalties": 0,
         });
       });
       let updatedBiribaNotes = this.props.biribaNotes;
