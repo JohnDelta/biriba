@@ -90,6 +90,25 @@
     row-gap: 10px;
 }
 
+.new-game-div {
+    display: grid;
+    justify-items: center;
+}
+
+.new-game-div button {
+    width: 40px;
+    height: 40px;
+    background-color: #2f2f2f;
+    color: #F5F1E3;
+    border: 3px solid #131313;
+}
+
+.new-game-div-button-ended {
+    width: auto !important;
+    height: auto !important;
+    background-color: #1B9AAA !important;
+}
+
 .round-div {
     background-color: #131313;
     padding: 3px;
@@ -208,8 +227,11 @@
     align-items: center;
 }
 
-.round-score-div > div p {
-
+.round-score-div > div input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    justify-self: center;
 }
 
 .round-score-div > div input[type=number] {

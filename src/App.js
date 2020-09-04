@@ -116,17 +116,19 @@ class App extends React.Component {
                          "id": 0,
                          "countCardsScore": 0,
                          "biribaScore": 0,
-                         "penalties": 0
+                         "penalties": 0,
+                         "close": false
                        },
                        {
                         "id": 1,
                         "countCardsScore": 0,
                         "biribaScore": 0,
-                        "penalties": 0
+                        "penalties": 0,
+                        "close": false
                       },
                      ],
-                     "cardDealer": "",
-                     "biribaDealer": "",
+                     "cardDealer": 0,
+                     "biribaDealer": 1,
                      "trumpNumber": "",
                      "trumpSymbol": ""
                    },
@@ -137,17 +139,19 @@ class App extends React.Component {
                         "id": 0,
                         "countCardsScore": 0,
                         "biribaScore": 0,
-                        "penalties": 0
+                        "penalties": 0,
+                        "close": false
                       },
                       {
                        "id": 1,
                        "countCardsScore": 0,
                        "biribaScore": 0,
-                       "penalties": 0
+                       "penalties": 0,
+                       "close": false
                      }
                     ],
-                    "cardDealer": "",
-                    "biribaDealer": "",
+                    "cardDealer": 0,
+                    "biribaDealer": 1,
                     "trumpNumber": "",
                     "trumpSymbol": ""
                   }

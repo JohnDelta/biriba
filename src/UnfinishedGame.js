@@ -14,30 +14,21 @@ class UnfinishedGame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      biribaNotes: this.props.biribaNotes
+      biribaNotes: this.props.biribaNotes,
+      gameFinished: false
     };
     this.toggleList = this.toggleList.bind(this);
     this.onScoreChange = this.onScoreChange.bind(this);
     this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
     this.resetBiribaNotes = this.resetBiribaNotes.bind(this);
     this.onRoundInfoChange = this.onRoundInfoChange.bind(this);
+    this.newRound = this.newRound.bind(this);
+    this.hasGameFinished = this.hasGameFinished.bind(this);
   }
 
-  /**
-   *  - rounds {list} {
-    *  - team # {
-    * 
-      * - members {list}
-      * 
-      * - round {
-      *  -biriba score, count cards, penalties
-      *  -atou
-      *  -player
-      * }
-    * 
-    * }
-   * }
-   */
+  componentDidMount() {
+    this.hasGameFinished();
+  }
 
   toggleList(e) {
     let button = document.getElementById(e.target.id);
@@ -63,7 +54,9 @@ class UnfinishedGame extends React.Component {
               score.countCardsScore = e.target.value;
             } else if (scoreType === "penalties") {
               score.penalties = e.target.value;
-            } 
+            } else if (scoreType === "close") {
+              score.close = !score.close;
+            }
           }
         });
       }
@@ -91,8 +84,28 @@ class UnfinishedGame extends React.Component {
     });
   }
 
+  hasGameFinished() {
+    let ended = false;
+    let biribaNotes = this.state.biribaNotes;
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.forEach((round, rIndex)=> {
+      round.scores.forEach((score, sIndex) => {
+        let s = Number(score.biribaScore) + Number(score.countCardsScore) - Number(score.penalties);
+        if(score.close) {
+          s += 100;
+        }
+        if(s >= 3010) {
+          ended = true;
+        }
+      })
+    });
+    this.setState({
+      gameFinished: ended
+    });
+  }
+
   updateBiribaNotes() {
     this.props.updateBiribaNotes(this.state.biribaNotes);
+    this.hasGameFinished();
     console.log("File updating...");
     this.props.updateFile();
   }
@@ -103,17 +116,66 @@ class UnfinishedGame extends React.Component {
     });
   }
 
+  newRound() {
+    let biribaNotes = this.state.biribaNotes;
+    
+    let numberOfPlayers = biribaNotes.unfinishedGames[this.props.unfinishedGameId].players.length;
+
+    // id of last rounds card dealer
+    let roundsLength = biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.length;
+    let cardDealerId = biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds[roundsLength-1]
+      .cardDealer;
+
+    let newRoundsCardDealerId = cardDealerId + 1;
+    if(newRoundsCardDealerId >= numberOfPlayers) {
+      newRoundsCardDealerId = 0;
+    }
+
+    let newRoundsBiribaDealerId = newRoundsCardDealerId - 1;
+    if(newRoundsBiribaDealerId < 0) {
+      newRoundsBiribaDealerId = numberOfPlayers - 1;
+    }
+
+    let newRound = {
+      "round": roundsLength,
+      "scores": [],
+      "cardDealer": Number(newRoundsCardDealerId),
+      "biribaDealer": Number(newRoundsBiribaDealerId),
+      "trumpNumber": 1,
+      "trumpSymbol": "KA"
+    };
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].teams.forEach((team, tIndex) => {
+      newRound.scores.push({
+        "teamId": team.id,
+        "countCardsScore": 0,
+        "biribaScore": 0,
+        "penalties": 0,
+        "close": false
+      });
+    });
+    
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.push(newRound);
+    
+    this.setState({
+      biribaNotes: biribaNotes
+    });
+    this.updateBiribaNotes();
+  }
+
   render() {
 
     // collect all data for the specified game id
     let gameDiv = [];
     let unfinishedGame = this.state.biribaNotes.unfinishedGames[this.props.unfinishedGameId];
-    
+    let roundLength = unfinishedGame.rounds.length;
+
     // gather data for each round
     let roundDiv = [];
     unfinishedGame.rounds.forEach((round, rIndex) => {
 
       // data for each team of the specific round
+
+      let maxTotalScore = -1;
       
       let teamRoundDiv = [];
       let totalRoundScore = 0;
@@ -158,6 +220,15 @@ class UnfinishedGame extends React.Component {
                     onChange={this.onScoreChange}
                   />
                 </div>
+                <div>
+                  <p>Close</p>
+                  <input
+                    id={"close_"+round.round+"_"+score.id} 
+                    type="checkbox"
+                    checked={score.close}
+                    onChange={this.onScoreChange}
+                  />
+                </div>
               </div>
             );
           }
@@ -169,9 +240,16 @@ class UnfinishedGame extends React.Component {
           round2.scores.forEach((score2, sIndex2) => {
             if(Number(team.id) === Number(score2.id)) {
               totalScore += Number(score2.biribaScore) + Number(score2.countCardsScore) - Number(score2.penalties);
+              if(score2.close) {
+                totalScore += 100;
+              }
             }
           });
         });
+
+        if(maxTotalScore < totalScore) {
+          maxTotalScore = totalScore;
+        }
 
         roundScoreDiv.push(
           <div className="round-score-div" key={"totalScores"+tIndex+rIndex} >
@@ -199,21 +277,6 @@ class UnfinishedGame extends React.Component {
           </div>
         );
 
-        roundScoreDiv.push(
-          <div className="save-options" key={"saveOption"}>
-            <button
-              onClick={this.updateBiribaNotes}
-            >
-              Save changes
-            </button>
-            <button
-              onClick={this.resetBiribaNotes}
-            >
-              Reset data
-            </button>
-          </div>
-        );
-
         // gather members of team
         let teamDiv = [];
         let members = [];
@@ -230,7 +293,7 @@ class UnfinishedGame extends React.Component {
               id={"team-info-div-active_"+rIndex+"_"+tIndex}
               onClick={this.toggleList}
             >
-              Team {team.id}
+              Team {team.id} ({totalScore})
             </button>
             <div className="team-info-div">
               <div className="team-members-div">
@@ -291,7 +354,7 @@ class UnfinishedGame extends React.Component {
             id={"teams-round-div-active_"+rIndex}
             onClick={this.toggleList} 
           >
-            Round {round.round}
+            Round {round.round+1}
           </button>
           <div className="teams-round-div">
             {teamRoundDiv}
@@ -336,14 +399,45 @@ class UnfinishedGame extends React.Component {
                 </select>
               </div>
             </div>
+            <div className="save-options" key={"saveOption"}>
+            <button
+              onClick={this.updateBiribaNotes}
+            >
+              Save changes
+            </button>
+            <button
+              onClick={this.resetBiribaNotes}
+            >
+              Reset data
+            </button>
+          </div>
           </div>
         </div>
       );
     });
 
+    let button = <button
+                    key={"gameFinishedButton"+this.state.gameFinished}
+                    onClick={this.newRound}
+                  >
+                    <i className="fa fa-plus" />
+                  </button>;
+    if(this.state.gameFinished) {
+        button = <button
+                    key={"gameFinishedButton"+this.state.gameFinished}
+                    onClick={this.newRound}
+                    className="new-game-div-button-ended"
+                  >
+                    Game ended (move to finished)
+                  </button>;
+    }
+
     gameDiv.push(
       <div className="game-div" key={"gameDiv"}>
         {roundDiv}
+        <div className="new-game-div">
+          {button}
+        </div>
       </div>
     );
 

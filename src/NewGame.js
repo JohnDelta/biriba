@@ -193,7 +193,7 @@ class NewGame extends React.Component {
       // file with this name was not found, must create new file
       // first initialize biribaNotes.txt with the first game and first round
       let newRound = {
-        "number": 1,
+        "round": 1,
         "scores": [],
         "cardDealer": 0,
         "biribaDealer": Number(this.state.players.length - 1),
@@ -206,6 +206,7 @@ class NewGame extends React.Component {
           "countCardsScore": 0,
           "biribaScore": 0,
           "penalties": 0,
+          "close": false
         });
       });
       let updatedBiribaNotes = this.props.biribaNotes;
