@@ -13,60 +13,6 @@ var CLIENT_ID = Keys.getClientID();
 
 class App extends React.Component {
 
-
-  /**
-   * biribaNotes.txt file format example:
-   * biribaNotes: {
-   *  unfinishedGames: [
-   *    {
-            "id": "id of unifinished game",
-            "date": "",
-            "teams": [
-              {
-                "id": "id of team",
-                "members": [
-                  {
-                    "id": "id of player"
-                  },
-                  {
-                    "id": "id of player"
-                  }
-                ]
-              }
-            ],
-            "players": [
-              {
-                "id": "id of player",
-                "name": "john"
-              },
-            ],
-            "rounds": [
-              {
-                "round": 0,
-                "scores": [
-                  {
-                    "id": "teamId",
-                    "countCardsScore": 0,
-                    "biribaScore": 0
-                  }
-                ]
-              }
-            ],
-            "finished": false
-        },
-      ],
-      finishedGames: [
-        {
-
-        },
-        {
-
-        }
-      ]
-   * }
-   * 
-  */
-
   constructor() {
     super();
 
@@ -76,6 +22,8 @@ class App extends React.Component {
       userMail: "",
       biribaNotes: 
       {
+      //biribaNotes.json FILE FORM
+
           unfinishedGames: [
             {
                  "id": 0,
@@ -167,10 +115,12 @@ class App extends React.Component {
      
              }
            ]
+
       }
       ,
       fileId: "",
-      unfinishedGameId: -1
+      unfinishedGameId: -1,
+      finishedGameId: -1
     };
 
     this.initClient = this.initClient.bind(this);
@@ -185,6 +135,7 @@ class App extends React.Component {
     this.updateBiribaNotes = this.updateBiribaNotes.bind(this);
     this.updateFile = this.updateFile.bind(this);
     this.updateUnfinishedGameId = this.updateUnfinishedGameId.bind(this);
+    this.updateFinishedGameId = this.updateFinishedGameId.bind(this);
   }
 
   componentDidMount(){
@@ -367,6 +318,12 @@ class App extends React.Component {
   updateUnfinishedGameId(id) {
     this.setState({
       unfinishedGameId: id
+    });
+  }
+
+  updateFinishedGameId(id) {
+    this.setState({
+      finishedGameId: id
     });
   }
 

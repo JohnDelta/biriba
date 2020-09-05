@@ -1,12 +1,12 @@
 import React from 'react';
-import './UnfinishedGames.css';
+import './History.css';
 
 import {
   withRouter,
   Link
 } from "react-router-dom";
 
-class UnfinishedGames extends React.Component {
+class History extends React.Component {
 
   constructor(props){
     super(props);
@@ -22,16 +22,16 @@ class UnfinishedGames extends React.Component {
 
   render() {
 
-    let unfinishedGamesDiv = [];
+    let HistoryDiv = [];
 
-    if(this.props.biribaNotes && this.props.biribaNotes.unfinishedGames) {
-      this.props.biribaNotes.unfinishedGames.forEach((unfinishedGame, uIndex) => {
-        if(!unfinishedGame.finished) {
+    if(this.props.biribaNotes && this.props.biribaNotes.finishedGames) {
+      this.props.biribaNotes.finishedGames.forEach((finishedGame, uIndex) => {
+        if(finishedGame.finished) {
           // search all teams and gather the maximum score of all
           let maxScore = -1;
-          unfinishedGame.teams.forEach((team, tIndex) => {
+          finishedGame.teams.forEach((team, tIndex) => {
             let teamsTotalScore = 0;
-            unfinishedGame.rounds.forEach((round, rIndex) => {
+            finishedGame.rounds.forEach((round, rIndex) => {
               round.scores.forEach((score, sIndex) => {
                 if(Number(team.id) === Number(score.id)) {
                   teamsTotalScore += Number(score.biribaScore) + Number(score.countCardsScore);
@@ -43,33 +43,33 @@ class UnfinishedGames extends React.Component {
             }
           });
 
-          unfinishedGamesDiv.push(
+          HistoryDiv.push(
             <div className="UnfinishedGame-part" key={"UnfinishedGame-part"+uIndex}
                 id={"unfinishedGame_"+uIndex} onClick={this.enterUnfinishedGame}>
               <p className="title">Game:#{uIndex}</p>
               <div className="inline">
                 <i className="fa fa-calendar" />
-                <p className="date">{unfinishedGame.date}</p>
+                <p className="date">{finishedGame.date}</p>
               </div>
-              <p>Players: {unfinishedGame.players.length}</p>
+              <p>Players: {finishedGame.players.length}</p>
               <p>Max score: {maxScore}</p>
-              <p>Teams: {unfinishedGame.teams.length}</p>
-              <p>Current round: {unfinishedGame.rounds.length}</p>
+              <p>Teams: {finishedGame.teams.length}</p>
+              <p>Current round: {finishedGame.rounds.length}</p>
             </div>
           ) 
         }
       });
     }
 
-    if(unfinishedGamesDiv.length === 0) {
-      unfinishedGamesDiv = <p>No unfinished games available</p>;
+    if(HistoryDiv.length === 0) {
+      HistoryDiv = <p>No finished games available</p>;
     }
 
     return (
-      <div className="UnfinishedGames">
-        <div className="UnfinishedGames-container">
+      <div className="History">
+        <div className="History-container">
           <div className="header">
-            <p>Unfinished Games</p>
+            <p>History</p>
             <Link to="/biriba" >
               <i className="fa fa-arrow-left" />
             </Link>
@@ -78,7 +78,7 @@ class UnfinishedGames extends React.Component {
           <div className="line"></div>
 
           <div className="section">
-            {unfinishedGamesDiv}
+            {HistoryDiv}
           </div>
         </div>;
       </div>  
@@ -87,4 +87,4 @@ class UnfinishedGames extends React.Component {
 
 }
 
-export default withRouter(UnfinishedGames);
+export default withRouter(History);

@@ -2,9 +2,6 @@ import React from 'react';
 import './NewGame.css';
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   withRouter,
   Link
 } from "react-router-dom";
@@ -166,14 +163,20 @@ class NewGame extends React.Component {
       // first update biribaNotes.txt with the new game and first round
       let updatedBiribaNotes = this.props.biribaNotes;
       let newRound = {
-        "number": 0,
-        "scores": []
+        "round": 0,
+        "scores": [],
+        "cardDealer": 0,
+        "biribaDealer": Number(this.state.players.length - 1),
+        "trumpNumber": 1,
+        "trumpSymbol": "KA"
       };
       this.state.teams.forEach((team, tIndex) => {
         newRound.scores.push({
           "teamId": team.id,
           "countCardsScore": 0,
-          "biribaScore": 0
+          "biribaScore": 0,
+          "penalties": 0,
+          "close": false
         });
       });
       let newUnfinishedGame = {

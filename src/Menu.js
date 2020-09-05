@@ -3,6 +3,7 @@ import './Menu.css';
 import NewGame from './NewGame';
 import UnfinishedGames from './UnfinishedGames';
 import UnfinishedGame from './UnfinishedGame';
+import History from './History';
 
 import {
   BrowserRouter as Router,
@@ -63,10 +64,16 @@ class Menu extends React.Component {
                 />
               </Route>
 
+              <Route exact path="/biriba/history">
+                <History
+                  biribaNotes={this.props.biribaNotes}
+                  finishedGameId={this.props.finishedGameId}
+                />
+              </Route>
+
               <Route exact path="/biriba/unfinished-games/game">
                 <UnfinishedGame
-                  //unfinishedGameId={this.props.unfinishedGameId}
-                  unfinishedGameId={0}
+                  unfinishedGameId={this.props.unfinishedGameId}
                   biribaNotes={this.props.biribaNotes}
                   updateBiribaNotes={this.props.updateBiribaNotes}
                   uploadFile={this.props.uploadFile}   

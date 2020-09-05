@@ -2,10 +2,7 @@ import React from 'react';
 import './UnfinishedGame.css';
 
 import {
-  BrowserRouter as Router,
   withRouter,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -24,6 +21,7 @@ class UnfinishedGame extends React.Component {
     this.onRoundInfoChange = this.onRoundInfoChange.bind(this);
     this.newRound = this.newRound.bind(this);
     this.hasGameFinished = this.hasGameFinished.bind(this);
+    this.moveGameToFinished = this.moveGameToFinished.bind(this);
   }
 
   componentDidMount() {
@@ -103,11 +101,25 @@ class UnfinishedGame extends React.Component {
     });
   }
 
+  moveGameToFinished() {
+    let biribaNotes = this.state.biribaNotes;
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].finished = true;
+    biribaNotes.finishedGames.push(
+      biribaNotes.unfinishedGames[this.props.unfinishedGameId]
+    );
+
+    this.setState({
+      biribaNotes: biribaNotes
+    });
+    this.updateBiribaNotes();
+    this.props.history.push("/biriba");
+  }
+
   updateBiribaNotes() {
     this.props.updateBiribaNotes(this.state.biribaNotes);
     this.hasGameFinished();
     console.log("File updating...");
-    this.props.updateFile();
+    // this.props.updateFile();
   }
 
   resetBiribaNotes() {
@@ -326,25 +338,25 @@ class UnfinishedGame extends React.Component {
           cardDealerId = player.id;
         }
         candidates.push(
-          <option value={player.id}>{player.name}</option>
+          <option key={"candidates_"+pIndex+rIndex} value={player.id}>{player.name}</option>
         );
       });
 
       // find trump card
-      let cardNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-      let cardSymbols = ["KA", "TR", "SP", "KO"];
+      let cardNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "-"];
+      let cardSymbols = ["KA", "TR", "SP", "KO", "JO"];
       let candidateCardNumbers = [];
       let candidateCardSymbols = [];
       
       cardNumbers.forEach((cardNumber, cIndex) => {
         candidateCardNumbers.push(
-          <option value={cardNumber}>{cardNumber}</option>
+          <option key={"candidateCardNumbers_"+rIndex+cIndex} value={cardNumber}>{cardNumber}</option>
         );
       });
 
       cardSymbols.forEach((cardSymbol, cIndex) => {
         candidateCardSymbols.push(
-          <option value={cardSymbol}>{cardSymbol}</option>
+          <option key={"candidateCardSymbols_"+cIndex+rIndex} value={cardSymbol}>{cardSymbol}</option>
         );
       });
 
@@ -425,7 +437,7 @@ class UnfinishedGame extends React.Component {
     if(this.state.gameFinished) {
         button = <button
                     key={"gameFinishedButton"+this.state.gameFinished}
-                    onClick={this.newRound}
+                    onClick={this.moveGameToFinished}
                     className="new-game-div-button-ended"
                   >
                     Game ended (move to finished)
@@ -463,4 +475,4 @@ class UnfinishedGame extends React.Component {
 
 }
 
-export default UnfinishedGame;
+export default withRouter(UnfinishedGame);
