@@ -84,3 +84,43 @@
     row-gap: 10px;
     align-items: center;
 }
+
+.FinishedGame-part {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 5px;
+    justify-content: space-evenly;
+    background-color: #2f2f2f;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.FinishedGame-part:active {
+    background-color: #1a1a1a;
+}
+
+.FinishedGame-part > * {
+    pointer-events: none;
+}
+
+.FinishedGame-part i {
+    margin-right: 2px;
+    font-size: 12px;
+    color: #1B9AAA;
+}
+
+.FinishedGame-part > .inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.FinishedGame-part > .title {
+    font-weight: 500;
+    color: #1B9AAA;
+    font-size: 15px;
+}
+
+.FinishedGame-part .inline > .date {
+    font-size: 12px;
+}

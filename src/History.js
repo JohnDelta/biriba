@@ -11,13 +11,13 @@ class History extends React.Component {
   constructor(props){
     super(props);
 
-    this.enterUnfinishedGame = this.enterUnfinishedGame.bind(this);
+    this.enterFinishedGame = this.enterFinishedGame.bind(this);
   }
 
-  enterUnfinishedGame(e) {
-    let unfinishedGameId = e.target.id.split("_")[1]; // given button id format of name_#game-id
-    this.props.updateUnfinishedGameId(unfinishedGameId);
-    this.props.history.push("/biriba/unfinished-games/game");
+  enterFinishedGame(e) {
+    let finishedGameId = e.target.id.split("_")[1]; // given button id format of name_#game-id
+    this.props.updateFinishedGameId(finishedGameId);
+    this.props.history.push("/biriba/history/game");
   }
 
   render() {
@@ -44,8 +44,8 @@ class History extends React.Component {
           });
 
           HistoryDiv.push(
-            <div className="UnfinishedGame-part" key={"UnfinishedGame-part"+uIndex}
-                id={"unfinishedGame_"+uIndex} onClick={this.enterUnfinishedGame}>
+            <div className="FinishedGame-part" key={"FinishedGame-part"+uIndex}
+                id={"FinishedGame_"+uIndex} onClick={this.enterFinishedGame}>
               <p className="title">Game:#{uIndex}</p>
               <div className="inline">
                 <i className="fa fa-calendar" />
