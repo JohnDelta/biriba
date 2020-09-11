@@ -327,11 +327,11 @@ class App extends React.Component {
     });
   }
 
-  uploadFile = () => {
+  uploadFile = (biribaNotes) => {
     const boundary = '-------314159265358979323846264';
     const delimiter = "\r\n--" + boundary + "\r\n";
     const close_delim = "\r\n--" + boundary + "--";
-    var base64Data = btoa(JSON.stringify(this.state.biribaNotes));
+    var base64Data = btoa(JSON.stringify(biribaNotes));
     var multipartRequestBody =
         delimiter +
         'Content-Type: application/json\r\n\r\n' +
@@ -361,11 +361,11 @@ class App extends React.Component {
     });
   }
 
-  updateFile = () => {
+  updateFile = (biribaNotes) => {
     const boundary = '-------314159265358979323846264';
     const delimiter = "\r\n--" + boundary + "\r\n";
     const close_delim = "\r\n--" + boundary + "--";
-    var base64Data = btoa(JSON.stringify(this.state.biribaNotes));
+    var base64Data = btoa(JSON.stringify(biribaNotes));
     var multipartRequestBody =
         delimiter +
         'Content-Type: application/json\r\n\r\n' +

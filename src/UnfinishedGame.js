@@ -35,17 +35,17 @@ class UnfinishedGame extends React.Component {
   }
 
   onScoreChange(e) {
-    // given id of button with name "scoreType_#round_#score.Id"
+    // given id of button with name "scoreType_#round_#teamId"
     let args = e.target.id.split("_");
     let scoreType = args[0];
     let roundOfScore = args[1];
-    let scoreId = args[2];
+    let teamId = args[2];
 
     let biribaNotes = this.state.biribaNotes;
     biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.forEach((round, rIndex)=> {
       if(Number(round.round) === Number(roundOfScore)) {
         round.scores.forEach((score, sIndex)=> {
-          if(Number(score.id) === Number(scoreId)) {
+          if(Number(score.teamId) === Number(teamId)) {
             if(scoreType === "biribaScore") {
               score.biribaScore = e.target.value;
             } else if (scoreType === "countCardsScore") {
@@ -85,16 +85,22 @@ class UnfinishedGame extends React.Component {
   hasGameFinished() {
     let ended = false;
     let biribaNotes = this.state.biribaNotes;
-    biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.forEach((round, rIndex)=> {
-      round.scores.forEach((score, sIndex) => {
-        let s = Number(score.biribaScore) + Number(score.countCardsScore) - Number(score.penalties);
-        if(score.close) {
-          s += 100;
-        }
-        if(s >= 3010) {
-          ended = true;
-        }
-      })
+    biribaNotes.unfinishedGames[this.props.unfinishedGameId].teams.forEach((team, tIndex) => {
+      let teamScore = 0;
+      biribaNotes.unfinishedGames[this.props.unfinishedGameId].rounds.forEach((round, rIndex) => {
+        round.scores.forEach((score, sIndex) => {
+          if(Number(score.teamId) === Number(team.id)) {
+            teamScore += Number(score.biribaScore) + Number(score.countCardsScore)
+              - Number(score.penalties);
+            if(score.close) {
+              teamScore += 100;
+            }
+          }
+        });
+      });
+      if(teamScore >= 3010) {
+        ended = true;
+      }
     });
     this.setState({
       gameFinished: ended
@@ -111,7 +117,7 @@ class UnfinishedGame extends React.Component {
     this.setState({
       biribaNotes: biribaNotes
     });
-    this.updateBiribaNotes();
+    this.updateBiribaNotes(biribaNotes);
     this.props.history.push("/biriba");
   }
 
@@ -119,7 +125,7 @@ class UnfinishedGame extends React.Component {
     this.props.updateBiribaNotes(this.state.biribaNotes);
     this.hasGameFinished();
     console.log("File updating...");
-    this.props.updateFile();
+    this.props.updateFile(this.state.biribaNotes);
   }
 
   resetBiribaNotes() {
@@ -149,7 +155,7 @@ class UnfinishedGame extends React.Component {
     }
 
     let newRound = {
-      "round": roundsLength,
+      "round": roundsLength+1,
       "scores": [],
       "cardDealer": Number(newRoundsCardDealerId),
       "biribaDealer": Number(newRoundsBiribaDealerId),
@@ -171,7 +177,7 @@ class UnfinishedGame extends React.Component {
     this.setState({
       biribaNotes: biribaNotes
     });
-    this.updateBiribaNotes();
+    this.updateBiribaNotes(biribaNotes);
   }
 
   render() {
@@ -196,7 +202,7 @@ class UnfinishedGame extends React.Component {
         // gather round score data for each team
         let roundScoreDiv = [];
         round.scores.forEach((score, sIndex) => {
-          if(Number(score.id) === Number(team.id)) {
+          if(Number(score.teamId) === Number(team.id)) {
             totalRoundScore = Number(score.biribaScore) + Number(score.countCardsScore) - Number(score.penalties);
             roundScoreDiv.push(
               <div className="round-score-div" key={"roundScoreDiv"+tIndex+sIndex}>
@@ -204,7 +210,7 @@ class UnfinishedGame extends React.Component {
                 <div>
                   <p>Biriba score</p>
                   <input
-                    id={"biribaScore_"+round.round+"_"+score.id} 
+                    id={"biribaScore_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     defaultValue={score.biribaScore} 
@@ -214,7 +220,7 @@ class UnfinishedGame extends React.Component {
                 <div>
                   <p>Count cards score</p>
                   <input
-                    id={"countCardsScore_"+round.round+"_"+score.id} 
+                    id={"countCardsScore_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     max="2000"
@@ -225,7 +231,7 @@ class UnfinishedGame extends React.Component {
                 <div>
                   <p>Penalties</p>
                   <input
-                    id={"penalties_"+round.round+"_"+score.id} 
+                    id={"penalties_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     defaultValue={score.countCardsScore} 
@@ -235,7 +241,7 @@ class UnfinishedGame extends React.Component {
                 <div>
                   <p>Close</p>
                   <input
-                    id={"close_"+round.round+"_"+score.id} 
+                    id={"close_"+round.round+"_"+score.teamId} 
                     type="checkbox"
                     checked={score.close}
                     onChange={this.onScoreChange}
@@ -250,7 +256,7 @@ class UnfinishedGame extends React.Component {
         //get total score for one team from all rounds
         unfinishedGame.rounds.forEach((round2, rIndex2) => {
           round2.scores.forEach((score2, sIndex2) => {
-            if(Number(team.id) === Number(score2.id)) {
+            if(Number(team.id) === Number(score2.teamId)) {
               totalScore += Number(score2.biribaScore) + Number(score2.countCardsScore) - Number(score2.penalties);
               if(score2.close) {
                 totalScore += 100;
@@ -366,7 +372,7 @@ class UnfinishedGame extends React.Component {
             id={"teams-round-div-active_"+rIndex}
             onClick={this.toggleList} 
           >
-            Round {round.round+1}
+            Round {round.round}
           </button>
           <div className="teams-round-div">
             {teamRoundDiv}

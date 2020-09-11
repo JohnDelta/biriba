@@ -33,8 +33,11 @@ class UnfinishedGames extends React.Component {
             let teamsTotalScore = 0;
             unfinishedGame.rounds.forEach((round, rIndex) => {
               round.scores.forEach((score, sIndex) => {
-                if(Number(team.id) === Number(score.id)) {
-                  teamsTotalScore += Number(score.biribaScore) + Number(score.countCardsScore);
+                if(Number(team.id) === Number(score.teamId)) {
+                  teamsTotalScore += Number(score.biribaScore) + Number(score.countCardsScore) - Number(score.penalties);
+                  if(score.close) {
+                    teamsTotalScore += 100;
+                  }
                 }
               });
             });

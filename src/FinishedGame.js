@@ -43,7 +43,7 @@ class FinishedGame extends React.Component {
         // gather round score data for each team
         let roundScoreDiv = [];
         round.scores.forEach((score, sIndex) => {
-          if(Number(score.id) === Number(team.id)) {
+          if(Number(score.teamId) === Number(team.id)) {
             totalRoundScore = Number(score.biribaScore) + Number(score.countCardsScore) - Number(score.penalties);
             roundScoreDiv.push(
               <div className="round-score-div" key={"roundScoreDiv"+tIndex+sIndex}>
@@ -51,7 +51,7 @@ class FinishedGame extends React.Component {
                 <div>
                   <p>Biriba score</p>
                   <input
-                    id={"biribaScore_"+round.round+"_"+score.id} 
+                    id={"biribaScore_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     defaultValue={score.biribaScore} 
@@ -61,7 +61,7 @@ class FinishedGame extends React.Component {
                 <div>
                   <p>Count cards score</p>
                   <input
-                    id={"countCardsScore_"+round.round+"_"+score.id} 
+                    id={"countCardsScore_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     max="2000"
@@ -72,7 +72,7 @@ class FinishedGame extends React.Component {
                 <div>
                   <p>Penalties</p>
                   <input
-                    id={"penalties_"+round.round+"_"+score.id} 
+                    id={"penalties_"+round.round+"_"+score.teamId} 
                     type="number"
                     min="0"
                     defaultValue={score.countCardsScore} 
@@ -82,10 +82,11 @@ class FinishedGame extends React.Component {
                 <div>
                   <p>Close</p>
                   <input
-                    id={"close_"+round.round+"_"+score.id} 
+                    id={"close_"+round.round+"_"+score.teamId} 
                     type="checkbox"
                     checked={score.close}
-                    unselectable={true}
+                    unselectable={"true"}
+                    readOnly={true}
                   />
                 </div>
               </div>
@@ -97,7 +98,7 @@ class FinishedGame extends React.Component {
         //get total score for one team from all rounds
         finishedGame.rounds.forEach((round2, rIndex2) => {
           round2.scores.forEach((score2, sIndex2) => {
-            if(Number(team.id) === Number(score2.id)) {
+            if(Number(team.id) === Number(score2.teamId)) {
               totalScore += Number(score2.biribaScore) + Number(score2.countCardsScore) - Number(score2.penalties);
               if(score2.close) {
                 totalScore += 100;
@@ -213,7 +214,7 @@ class FinishedGame extends React.Component {
             id={"teams-round-div-active_"+rIndex}
             onClick={this.toggleList} 
           >
-            Round {round.round+1}
+            Round {round.round}
           </button>
           <div className="teams-round-div">
             {teamRoundDiv}

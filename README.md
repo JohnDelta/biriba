@@ -9,8 +9,9 @@
 
 ## Install
 - First, a Google Drive API access (ClientId & APIKey) is required
-- The API must have auth02 with scope to create/alter/delete files on drive
+- The API must have auth2 with scope to create/alter/delete files on drive
 - Don't forget to whitelist the server root (ex. http://localhost:3000 in react server) from the API 
-- Clone the project
-- On the App.js file, you need to add your clientId & apiKey on the corresponding global vars
-- Start the project on the server (ex. npm start for a localhost)
+- Clone the project (git clone https://github.com/JohnDelta/biriba.git)
+- cd to project
+- On the App.js file, you need to add your clientId & apiKey on the corresponding global vars and delete the ones coming from the Keys.js file
+- Type "npm update" and then "npm start" to run the project localy using npm console

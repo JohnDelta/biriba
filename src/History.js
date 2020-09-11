@@ -33,7 +33,7 @@ class History extends React.Component {
             let teamsTotalScore = 0;
             finishedGame.rounds.forEach((round, rIndex) => {
               round.scores.forEach((score, sIndex) => {
-                if(Number(team.id) === Number(score.id)) {
+                if(Number(team.id) === Number(score.teamId)) {
                   teamsTotalScore += Number(score.biribaScore) + Number(score.countCardsScore);
                 }
               });

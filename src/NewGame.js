@@ -158,12 +158,16 @@ class NewGame extends React.Component {
   }
 
   createGameNote() {
-    if(this.props.biribaNotes) {
+    if(this.props.biribaNotes.unfinishedGames) {
+      let roundsLength = 1;
+      if(this.props.biribaNotes.unfinishedGames.rounds) {
+        roundsLength = this.props.biribaNotes.unfinishedGames.rounds.length;
+      }
       // file was found, must update it
       // first update biribaNotes.txt with the new game and first round
       let updatedBiribaNotes = this.props.biribaNotes;
       let newRound = {
-        "round": 0,
+        "round": roundsLength,
         "scores": [],
         "cardDealer": 0,
         "biribaDealer": Number(this.state.players.length - 1),
@@ -190,7 +194,7 @@ class NewGame extends React.Component {
       updatedBiribaNotes.unfinishedGames.push(newUnfinishedGame);
       this.props.updateBiribaNotes(updatedBiribaNotes);
       console.log("calling update existing file...");
-      this.props.updateFile();
+      this.props.updateFile(updatedBiribaNotes);
       
     } else {
       // file with this name was not found, must create new file
@@ -228,7 +232,7 @@ class NewGame extends React.Component {
       };
       this.props.updateBiribaNotes(updatedBiribaNotes);
       console.log("calling upload new file...");
-      this.props.uploadFile();
+      this.props.uploadFile(updatedBiribaNotes);
     } 
     this.props.history.push("/biriba");
   }
