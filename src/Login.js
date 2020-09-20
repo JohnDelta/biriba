@@ -10,9 +10,9 @@ class Login extends React.Component {
                 <div className="intro">
                     <h1>Welcome to Biriba Notes</h1>
                     <p>
-                      Here you can here you can here
-                      you can here you can here you can
-                      here you can here
+                      Here you can keep notes on 
+                      your favourite card game Biriba
+                      using your Google Drive Account
                     </p>
                 </div>
                 <button
