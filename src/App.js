@@ -266,9 +266,25 @@ class App extends React.Component {
 
     var user = await this.state.googleAuth.currentUser.get();
     var isAuthorized = user.hasGrantedScopes(SCOPE);
+
+
+    /**
+     * Google drive api seems to change the response key values.
+     * So to get the email i'll look each key to find the email...
+     */
+
+    let userKey = "user";
+    Object.keys(user).forEach((key1) => {
+      Object.keys(user[key1]).forEach((key2) => {
+        if(/[a-zA-Z0-9.]{1,}[@][a-zA-Z0-9.]/.test(user[key1][key2])) {
+          userKey = user[key1][key2];
+        }
+      });
+    });
+
     if(isAuthorized){
       this.setState({
-        userMail: user.vt.cu
+        userMail: userKey
       });
     }
 
